@@ -18,7 +18,7 @@ app.use(
   cors({
     origin:  [
       "http://localhost:5173",
-      "https://guitar-in-soul.vercel.app/",
+      "https://guitar-in-soul.vercel.app",
     ],
 
     credentials: true,
