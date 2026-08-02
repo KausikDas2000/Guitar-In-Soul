@@ -22,21 +22,20 @@ const Song = () => {
   }, [id]);
 
   const fetchSong = async () => {
-    try {
-      const data = await getSong(id);
+  try {
+    const data = await getSong(id);
 
-      setSong(data.arrangement);
+    setSong(data.arrangement);
 
-      console.log(song.notationPdf.url);
+    console.log(data.arrangement);
+    console.log(data.arrangement?.notationPdf?.url);
 
-      // console.log(data.arrangement); // Entire arrangement
-      // console.log(data.arrangement.notationPdf.url); // PDF URL
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     if (song) {

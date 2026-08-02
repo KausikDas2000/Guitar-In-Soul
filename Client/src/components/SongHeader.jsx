@@ -77,6 +77,14 @@ const SongHeader = ({
   };
 
   const [showPreview, setShowPreview] = useState(false);
+
+    if (!song) {
+    return (
+      <div className="text-white p-10">
+        Loading...
+      </div>
+    );
+  }
   return (
     <section className="bg-gradient-to-br from-slate-900 via-gray-900 to-black rounded-3xl overflow-hidden shadow-2xl text-white">
 
