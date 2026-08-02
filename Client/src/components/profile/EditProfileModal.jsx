@@ -53,7 +53,7 @@ const EditProfileModal = ({
     }
 
     const { data } = await axios.put(
-      "http://guitar-in-soul.onrender.com/api/users/profile",
+      "https://guitar-in-soul.onrender.com/api/users/profile",
       formData,
       {
         headers: {

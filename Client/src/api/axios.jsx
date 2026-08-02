@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://guitar-in-soul.onrender.com/api",
+  baseURL: "https://guitar-in-soul.onrender.com/api",
 });
 
 
