@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import SearchBar from "../components/SearchBar";
-import SongGrid from "../components/SongGrid";
 
 import { getAllSongs } from "../services/songService";
 import Footer from "./Footer";

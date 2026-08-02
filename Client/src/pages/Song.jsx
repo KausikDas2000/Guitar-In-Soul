@@ -6,7 +6,6 @@ import { getSong } from "../services/songService";
 import Navbar from "../components/Navbar";
 import SongHeader from "../components/SongHeader";
 import MusicPlayer from "../components/MusicPlayer";
-import PDFViewer from "../components/PDFViewer";
 import { FaHeart } from "react-icons/fa";
 import { toggleLike } from "../services/songService";
 
@@ -90,7 +89,7 @@ const Song = () => {
           <SongHeader song={song} liked={liked}
             likeCount={likeCount}
             handleLike={handleLike} />
-          {/* <PDFViewer pdfUrl={song.notationPdf?.url} /> */}
+      
 
           <div className="mt-10">
             <MusicPlayer audioUrl={song.audioFile?.url} />
