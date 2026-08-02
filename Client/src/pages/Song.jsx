@@ -6,7 +6,7 @@ import { getSong } from "../services/songService";
 import Navbar from "../components/Navbar";
 import SongHeader from "../components/SongHeader";
 import MusicPlayer from "../components/MusicPlayer";
-import PDFViewer from "../components/pdfViewer";
+import PDFViewer from "../components/PDFViewer";
 import { FaHeart } from "react-icons/fa";
 import { toggleLike } from "../services/songService";
 

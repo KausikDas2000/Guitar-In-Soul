@@ -6,7 +6,7 @@ import {
   FaPaperPlane,
 } from "react-icons/fa";
 import { FiUser, FiMail } from "react-icons/fi";
-import { sendMessage } from "../services/contactService";
+import { sendMessage } from "../services/ContactService";
 
 const Contact = () => {
   const [form, setForm] = useState({
