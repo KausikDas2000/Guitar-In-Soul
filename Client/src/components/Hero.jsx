@@ -87,11 +87,11 @@ const Hero = () => {
           {/* Image Glow */}
           <div className="absolute w-[90%] h-[90%] rounded-full bg-orange-500/30 blur-[120px]"></div>
 
-          <div className="relative w-full max-w-[850px] h-[500px]">
+          <div className="relative w-full max-w-[850px] h-[280px] sm:h-[380px] lg:h-[500px]">
             <img
               src={GiS}
               alt="Hero"
-              className="w-full h-full object-cover rounded-[35px]"
+              className="w-full h-full object-contain lg:object-cover rounded-[35px]"
             />
           </div>
 
