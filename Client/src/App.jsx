@@ -8,7 +8,7 @@ import Song from "./pages/Song";
 import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import NotFound from "./pages/NotFound";
-import Arrangements from "./pages/arrangement";
+import Arrangements from "./pages/Arrangement";
 import Footer from "./pages/Footer";
 import Favorites from "./pages/Favorites";
 import AdminLayout from "./pages/admin/AdminLayout";

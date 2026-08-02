@@ -1,7 +1,7 @@
 import axios from "axios";
 import api from "../services/api";
 
-const API = "http://localhost:5000/api/admin";
+const API = "https://guitar-in-soul.onrender.com/api/admin";
 
 export const getUsers = async () => {
     const { data } = await axios.get(`${API}/users`, {
