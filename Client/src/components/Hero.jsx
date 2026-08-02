@@ -95,35 +95,8 @@ const Hero = () => {
             />
           </div>
 
-          {/* Top Card */}
-          <div className="absolute top-8 -left-10 bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl px-5 py-4 border border-white/20">
-            <div className="flex items-center gap-3">
-              <div className="bg-orange-100 p-3 rounded-xl">
-                <FaGuitar className="text-orange-500 text-xl" />
-              </div>
 
-              <div>
-                <p className="font-semibold">10,000+</p>
-                <p className="text-sm text-gray-500">
-                  Guitar Tabs
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Card */}
-          <div className="absolute bottom-8 -right-10 bg-black/90 backdrop-blur-xl text-white rounded-2xl px-5 py-4 shadow-2xl border border-white/10">
-            <div className="flex items-center gap-3">
-              <FaCloudUploadAlt className="text-orange-400 text-2xl" />
-
-              <div>
-                <p className="font-semibold">Upload</p>
-                <p className="text-sm text-gray-300">
-                  Share Your PDFs
-                </p>
-              </div>
-            </div>
-          </div>
+        
 
         </div>
 
