@@ -16,7 +16,11 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:  [
+      "http://localhost:5173",
+      "https://guitar-in-soul-3lp8iu0ys-kausik.vercel.app/",
+    ],
+
     credentials: true,
   })
 );
