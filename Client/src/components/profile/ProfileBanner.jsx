@@ -19,7 +19,7 @@ const ProfileBanner = () => {
   const fetchProfile = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/users/profile",
+        "http://guitar-in-soul.onrender.com/api/users/profile",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -56,7 +56,7 @@ const ProfileBanner = () => {
       setLoading(true);
 
       await axios.put(
-        "http://localhost:5000/api/users/profile-image",
+        "http://guitar-in-soul.onrender.com/api/users/profile-image",
         formData,
         {
           headers: {
