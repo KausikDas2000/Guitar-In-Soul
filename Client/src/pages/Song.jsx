@@ -22,20 +22,20 @@ const Song = () => {
   }, [id]);
 
   const fetchSong = async () => {
-  try {
-    const data = await getSong(id);
+    try {
+      const data = await getSong(id);
 
-    setSong(data.arrangement);
+      setSong(data.arrangement);
 
-    console.log(data.arrangement);
-    console.log(data.arrangement?.notationPdf?.url);
+      console.log(data.arrangement);
+      console.log(data.arrangement?.notationPdf?.url);
 
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setLoading(false);
-  }
-};
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (song) {
@@ -80,6 +80,35 @@ const Song = () => {
 
   return (
     <>
+
+      <Helmet>
+        <title>{song.title} | Guitar In Soul</title>
+
+        <meta
+          name="description"
+          content={`${song.title} guitar arrangement by ${song.artist}. Preview and download the PDF on Guitar In Soul.`}
+        />
+
+        <meta name="robots" content="index, follow" />
+
+        <link
+          rel="canonical"
+          href={`https://guitar-in-soul.vercel.app/arrangements/${song._id}`}
+        />
+
+        <meta property="og:title" content={`${song.title} | Guitar In Soul`} />
+
+        <meta
+          property="og:description"
+          content={`${song.title} guitar arrangement by ${song.artist}.`}
+        />
+
+        <meta property="og:type" content="article" />
+
+        {song.coverImage?.url && (
+          <meta property="og:image" content={song.coverImage.url} />
+        )}
+      </Helmet>
       <Navbar />
 
       <main className="bg-gray-50 min-h-screen py-10">
@@ -88,7 +117,7 @@ const Song = () => {
           <SongHeader song={song} liked={liked}
             likeCount={likeCount}
             handleLike={handleLike} />
-      
+
 
           <div className="mt-10">
             <MusicPlayer audioUrl={song.audioFile?.url} />
