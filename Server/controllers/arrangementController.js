@@ -31,23 +31,23 @@ export const createArrangement = async (req, res) => {
 
       coverImage: cover
         ? {
-            url: cover.path,
-            publicId: cover.filename,
-          }
+          url: cover.path,
+          publicId: cover.filename,
+        }
         : {},
 
       notationPdf: pdf
         ? {
-            url: pdf.path,
-            publicId: pdf.filename,
-          }
+          url: pdf.path,
+          publicId: pdf.filename,
+        }
         : {},
 
       audioFile: audio
         ? {
-            url: audio.path,
-            publicId: audio.filename,
-          }
+          url: audio.path,
+          publicId: audio.filename,
+        }
         : {},
 
       uploader: req.user._id,
@@ -90,52 +90,61 @@ export const getAllArrangements = async (req, res) => {
   }
 };
 
-export const getArrangementById = async (req,res)=>{
- try{
+export const getArrangementById = async (req, res) => {
+  try {
 
- const arrangement = await Arrangement.findById(req.params.id)
- .populate("uploader","name email");
-
-
- if(!arrangement){
-  return res.status(404).json({
-   success:false,
-   message:"Arrangement not found"
-  });
- }
+    const arrangement = await Arrangement.findById(req.params.id)
+      .populate("uploader", "name email");
 
 
- if(
-   !arrangement.viewedBy.includes(req.user._id)
- ){
-
-   arrangement.views += 1;
-
-   arrangement.viewedBy.push(
-     req.user._id
-   );
-
-   await arrangement.save();
-
- }
+    if (!arrangement) {
+      return res.status(404).json({
+        success: false,
+        message: "Arrangement not found"
+      });
+    }
 
 
- res.json({
-  success:true,
-  arrangement
- });
+    // Count views only for logged-in users
+    if (req.user) {
+
+      if (!arrangement.viewedBy.includes(req.user._id)) {
+
+        arrangement.views += 1;
+
+        arrangement.viewedBy.push(
+          req.user._id
+        );
+
+        await arrangement.save();
+
+      }
+
+    } else {
+
+      // Guest view
+      arrangement.views += 1;
+      await arrangement.save();
+
+    }
 
 
- }catch(error){
+    res.json({
+      success: true,
+      arrangement
+    });
 
- console.log(error);
 
- res.status(500).json({
-  success:false,
-  message:error.message
- });
+  } catch (error) {
 
- }
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+
+  }
 
 };
 

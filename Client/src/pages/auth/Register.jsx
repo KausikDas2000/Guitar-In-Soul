@@ -51,29 +51,9 @@ const Register = () => {
   };
 
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        const res = await API.post("/auth/google", {
-          token: tokenResponse.access_token,
-        });
+ 
 
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-
-        navigate("/");
-
-      } catch (err) {
-        setMessage(
-          err.response?.data?.message || "Google login failed"
-        );
-      }
-    },
-
-    onError: () => {
-      setMessage("Google Login Failed");
-    },
-  });
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-white to-orange-100 px-4">

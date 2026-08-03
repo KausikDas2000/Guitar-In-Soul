@@ -24,29 +24,7 @@ const Login = () => {
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        const res = await API.post("/auth/google", {
-          token: tokenResponse.access_token,
-        });
-
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-
-        navigate("/");
-
-      } catch (err) {
-        setMessage(
-          err.response?.data?.message || "Google login failed"
-        );
-      }
-    },
-
-    onError: () => {
-      setMessage("Google Login Failed");
-    },
-  });
+  
 
 
 

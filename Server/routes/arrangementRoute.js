@@ -40,7 +40,7 @@ router.put(
 
 router.get("/", getAllArrangements);
 
-router.get("/:id",protect, getArrangementById);
+router.get("/:id", getArrangementById);
 
 router.post(
   "/",
