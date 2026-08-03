@@ -74,7 +74,7 @@ export const createArrangement = async (req, res) => {
 export const getAllArrangements = async (req, res) => {
   try {
     const arrangements = await Arrangement.find()
-      .populate("uploader", "name email")
+      .populate("uploader", "name email profileImage")
       .sort({ createdAt: -1 });
 
     res.status(200).json({

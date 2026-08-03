@@ -78,7 +78,7 @@ const SongHeader = ({
 
   const [showPreview, setShowPreview] = useState(false);
 
-    if (!song) {
+  if (!song) {
     return (
       <div className="text-white p-10">
         Loading...
@@ -163,12 +163,18 @@ const SongHeader = ({
 
             <button
               onClick={handleFavorite}
-              className={`flex-1 rounded-2xl py-4 transition ${favorite
-                ? "bg-yellow-500 text-black"
-                : "bg-white/10 text-white"
+              className={`flex items-center justify-center gap-3 px-8 py-4 rounded-full 
+  font-bold transition-all duration-300 backdrop-blur-xl
+  ${favorite
+                  ? "bg-green-500 text-black shadow-xl shadow-green-500/40 scale-105"
+                  : "bg-white/10 text-white border border-white/20 hover:border-green-400 hover:text-green-400"
                 }`}
             >
-              ⭐ {favorite ? "Saved" : "Save"}
+              <span className="text-2xl">
+                {favorite ? "✓" : "+"}
+              </span>
+
+              {favorite ? "Saved to Favorite" : "Save to Favorite"}
             </button>
 
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 text-center">
@@ -247,13 +253,13 @@ const SongHeader = ({
 
             <img
               src={
-                user?.profileImage?.url ||
+                song?.uploader?.profileImage?.url ||
                 `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                  user?.name || "User"
+                  song?.uploader?.name || "User"
                 )}&background=f97316&color=fff`
               }
-              alt=""
-              className="w-20 h-20 rounded-full border-4 border-white object-cover shadow-xl"
+              alt={song?.uploader?.name || "User"}
+              className="w-10 h-10 rounded-full object-cover"
             />
 
             <div>

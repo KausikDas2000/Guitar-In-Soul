@@ -24,7 +24,7 @@ const Song = () => {
   }, [id]);
 
 
- 
+
 
   const fetchSong = async () => {
     try {
@@ -122,8 +122,6 @@ const Song = () => {
           <SongHeader song={song} liked={liked}
             likeCount={likeCount}
             handleLike={handleLike} />
-
-
           <div className="mt-10">
             <MusicPlayer audioUrl={song.audioFile?.url} />
           </div>

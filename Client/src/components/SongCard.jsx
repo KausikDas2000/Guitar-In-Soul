@@ -148,11 +148,16 @@ const SongCard = ({ song }) => {
 
           <div className="flex items-center gap-3">
 
-            <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-
-              <FaUserCircle className="text-orange-500 text-xl" />
-
-            </div>
+            <img
+              src={
+                song?.uploader?.profileImage?.url ||
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                  song?.uploader?.name || "User"
+                )}&background=f97316&color=fff`
+              }
+              alt={song?.uploader?.name || "User"}
+              className="w-10 h-10 rounded-full object-cover"
+            />
 
             <div>
 
