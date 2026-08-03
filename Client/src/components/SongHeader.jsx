@@ -161,21 +161,7 @@ const SongHeader = ({
               </p>
             </div>
 
-            <button
-              onClick={handleFavorite}
-              className={`flex items-center justify-center gap-3 px-8 py-4 rounded-full 
-  font-bold transition-all duration-300 backdrop-blur-xl
-  ${favorite
-                  ? "bg-green-500 text-black shadow-xl shadow-green-500/40 scale-105"
-                  : "bg-white/10 text-white border border-white/20 hover:border-green-400 hover:text-green-400"
-                }`}
-            >
-              <span className="text-2xl">
-                {favorite ? "✓" : "+"}
-              </span>
 
-              {favorite ? "Saved to Favorite" : "Save to Favorite"}
-            </button>
 
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 text-center">
               <FaEye className="mx-auto text-sky-400 text-2xl mb-2" />
@@ -196,6 +182,44 @@ const SongHeader = ({
                 Downloads
               </p>
             </div>
+
+            <button
+              onClick={handleFavorite}
+              className={`
+    flex items-center justify-center gap-3
+    w-full
+    h-full
+    min-h-[110px]
+    rounded-2xl
+    font-bold
+    transition-all
+    duration-300
+    backdrop-blur-xl
+    border
+
+    ${favorite
+                  ? "bg-green-500 text-black border-green-400 shadow-xl shadow-green-500/40 scale-105"
+                  : "bg-white/10 text-white border-white/20 hover:bg-green-500/20 hover:border-green-400 hover:text-green-400"
+                }
+  `}
+            >
+              <span
+                className={`text-3xl transition-transform duration-300 ${favorite ? "scale-125" : ""
+                  }`}
+              >
+                {favorite ? "✓" : "+"}
+              </span>
+
+              <div className="flex flex-col">
+                <span className="text-lg">
+                  {favorite ? "Saved" : "Save"}
+                </span>
+
+                <span className="text-xs opacity-70">
+                  {favorite ? "In Favorites" : "Add to Library"}
+                </span>
+              </div>
+            </button>
 
           </div>
 
