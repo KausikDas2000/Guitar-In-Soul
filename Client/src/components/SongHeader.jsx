@@ -17,6 +17,7 @@ const SongHeader = ({
   liked,
   likeCount,
   handleLike,
+  favorite,
   handleFavorite,
 }) => {
 

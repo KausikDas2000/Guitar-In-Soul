@@ -51,9 +51,9 @@ const Register = () => {
   };
 
 
- 
 
-  
+
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-white to-orange-100 px-4">
@@ -162,41 +162,41 @@ const Register = () => {
           </button>
 
         </form>
+        <div className="google-login-full w-full mt-6">
+          <div className="w-full rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+            <GoogleLogin
+              theme="outline"
+              size="large"
+              shape="pill"
+              width="400"
+              text="signin_with"
+              onSuccess={async (credentialResponse) => {
+                try {
+                  const res = await API.post("/auth/google", {
+                    token: credentialResponse.credential,
+                  });
 
-      <div className=" google-login-full w-full mt-6">
-  <div className="rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-    <GoogleLogin
-      theme="outline"
-      size="large"
-      shape="pill"
-      width="100%"
-      text="Sign_Up_with"
-      onSuccess={async (credentialResponse) => {
-        try {
-          const res = await API.post("/auth/google", {
-            token: credentialResponse.credential,
-          });
+                  localStorage.setItem("token", res.data.token);
+                  localStorage.setItem(
+                    "user",
+                    JSON.stringify(res.data.user)
+                  );
 
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem(
-            "user",
-            JSON.stringify(res.data.user)
-          );
+                  navigate("/");
 
-          navigate("/");
+                } catch (err) {
+                  setMessage(
+                    err.response?.data?.message || "Google login failed"
+                  );
+                }
+              }}
+              onError={() => {
+                setMessage("Google Login Failed");
+              }}
+            />
+          </div>
+        </div>
 
-        } catch (err) {
-          setMessage(
-            err.response?.data?.message || "Google login failed"
-          );
-        }
-      }}
-      onError={() => {
-        setMessage("Google Login Failed");
-      }}
-    />
-  </div>
-</div>
 
         <p className="text-center text-gray-500 mt-7">
           Already have an account?

@@ -26,38 +26,38 @@ const Song = () => {
   }, [id]);
 
   useEffect(() => {
-  const checkFavorite = async () => {
+    const checkFavorite = async () => {
+      try {
+        const res = await getFavorites();
+
+        const isSaved = res.favorites.some(
+          (fav) => fav._id.toString() === song._id.toString()
+        );
+
+        setFavorite(isSaved);
+
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (song?._id) {
+      checkFavorite();
+    }
+
+  }, [song]);
+
+  const handleFavorite = async () => {
     try {
-      const res = await getFavorites();
 
-      const isSaved = res.favorites.some(
-        (fav) => fav._id === song._id
-      );
+      const res = await favoriteSong(song._id);
 
-      setFavorite(isSaved);
+      setFavorite(res.favorite);
 
     } catch (err) {
       console.log(err);
     }
   };
-
-  if (song?._id) {
-    checkFavorite();
-  }
-
-}, [song]);
-
-const handleFavorite = async () => {
-  try {
-
-    const res = await favoriteSong(song._id);
-
-    setFavorite(res.favorite);
-
-  } catch(err){
-    console.log(err);
-  }
-};
 
 
 
@@ -157,8 +157,9 @@ const handleFavorite = async () => {
 
           <SongHeader song={song} liked={liked}
             likeCount={likeCount}
-            handleLike={handleLike} 
-             handleFavorite={handleFavorite}/>
+            handleLike={handleLike}
+            favorite={favorite}
+            handleFavorite={handleFavorite} />
           <div className="mt-10">
             <MusicPlayer audioUrl={song.audioFile?.url} />
           </div>
