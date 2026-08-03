@@ -90,53 +90,53 @@ export const getAllArrangements = async (req, res) => {
   }
 };
 
-export const getArrangementById = async (req, res) => {
-  try {
+export const getArrangementById = async (req,res)=>{
+ try{
 
-    const arrangement = await Arrangement.findById(req.params.id)
-      .populate("uploader", "name email");
-
-
-    if (!arrangement) {
-      return res.status(404).json({
-        success:false,
-        message:"Arrangement not found"
-      });
-    }
+ const arrangement = await Arrangement.findById(req.params.id)
+ .populate("uploader","name email");
 
 
-    const alreadyViewed = arrangement.viewedBy.some(
-      (userId) => userId.toString() === req.user._id.toString()
-    );
+ if(!arrangement){
+  return res.status(404).json({
+   success:false,
+   message:"Arrangement not found"
+  });
+ }
 
 
-    if (!alreadyViewed) {
+ if(
+   !arrangement.viewedBy.includes(req.user._id)
+ ){
 
-      arrangement.views += 1;
+   arrangement.views += 1;
 
-      arrangement.viewedBy.push(req.user._id);
+   arrangement.viewedBy.push(
+     req.user._id
+   );
 
-      await arrangement.save();
+   await arrangement.save();
 
-    }
-
-
-    res.status(200).json({
-      success:true,
-      arrangement
-    });
+ }
 
 
-  } catch(error){
+ res.json({
+  success:true,
+  arrangement
+ });
 
-    console.log(error);
 
-    res.status(500).json({
-      success:false,
-      message:error.message
-    });
+ }catch(error){
 
-  }
+ console.log(error);
+
+ res.status(500).json({
+  success:false,
+  message:error.message
+ });
+
+ }
+
 };
 
 
@@ -323,39 +323,3 @@ export const incrementDownload = async (req, res) => {
   }
 };
 
-export const addView = async (req, res) => {
-
-  try {
-
-    const arrangement = await Arrangement.findById(
-      req.params.id
-    );
-
-
-    if (!arrangement) {
-      return res.status(404).json({
-        message: "Arrangement not found"
-      });
-    }
-
-
-    arrangement.views += 1;
-
-    await arrangement.save();
-
-
-    res.json({
-      success: true,
-      views: arrangement.views
-    });
-
-
-  } catch(error){
-
-    res.status(500).json({
-      message:error.message
-    });
-
-  }
-
-};

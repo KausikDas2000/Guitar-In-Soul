@@ -15,12 +15,11 @@ import {
 } from "../controllers/arrangementController.js";
 import { incrementDownload } from "../controllers/arrangementController.js";
 
-import { addView } from "../controllers/arrangementController.js";
 
 
 
 const router = express.Router();
-router.post("/:id/view", addView);
+
 
 router.put(
   "/:id",
