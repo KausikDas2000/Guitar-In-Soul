@@ -85,14 +85,24 @@ const userSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-      resetPasswordToken: {
+    resetPasswordToken: {
       type: String,
     },
 
     resetPasswordExpire: {
       type: Date,
     },
-  
+    googleId: {
+      type: String,
+      default: "",
+    },
+
+    provider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local",
+    },
+
   },
   {
     timestamps: true,

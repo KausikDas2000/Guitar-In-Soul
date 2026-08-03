@@ -22,6 +22,35 @@ const Song = () => {
     fetchSong();
   }, [id]);
 
+  
+  useEffect(() => {
+
+  const addView = async () => {
+
+    const viewed = localStorage.getItem(
+      `viewed-${id}`
+    );
+
+    if (!viewed) {
+
+      await API.post(
+        `/arrangements/${id}/view`
+      );
+
+      localStorage.setItem(
+        `viewed-${id}`,
+        true
+      );
+
+    }
+
+  };
+
+
+  addView();
+
+}, [id]);
+
   const fetchSong = async () => {
     try {
       const data = await getSong(id);

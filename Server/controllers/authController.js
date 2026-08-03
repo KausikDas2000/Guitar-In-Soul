@@ -3,6 +3,67 @@ import User from "../model/user.js";
 import generateToken from "../utils/generateToken.js";
 import crypto from "crypto";
 import sendEmail from "../utils/sendEmail.js";
+import { OAuth2Client } from "google-auth-library";
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+export const googleLogin = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    const {
+      email,
+      name,
+      picture,
+      sub,
+    } = payload;
+
+    let user = await User.findOne({ email });
+
+   if (!user) {
+
+      user = await User.create({
+        name,
+        email,
+        username: `user_${sub.slice(0, 8)}`,
+        googleId: sub,
+        provider: "google",
+        password: await bcrypt.hash(sub, 10),
+        profileImage: {
+          url: picture,
+        },
+      });
+
+    }
+
+    const jwt = generateToken(user._id);
+
+    res.json({
+      success: true,
+      token: jwt,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        username: user.username,
+        profileImage: user.profileImage,
+        role: user.role,
+      },
+    });
+  } catch (err) {
+    res.status(401).json({
+      success: false,
+      message: "Google authentication failed",
+    });
+  }
+};
 
 const sendToken = (user, statusCode, res) => {
   const token = generateToken(user._id);

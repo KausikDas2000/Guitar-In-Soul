@@ -1,43 +1,25 @@
 import { FaCamera } from "react-icons/fa";
 import axios from "axios";
-import { useRef,useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 
 
 
 
-const ProfileBanner = () => {
+const ProfileBanner = ({ profile, setProfile }) => {
 
 
   const [loading, setLoading] = useState(false);
 
 
 
+  const [preview, setPreview] = useState(
+    profile?.profileImage ||
+    "https://ui-avatars.com/api/?name=User&background=111827&color=fff"
+  );
 
 
   const fileInputRef = useRef(null);
-  useEffect(() => {
-  const fetchProfile = async () => {
-    try {
-      const { data } = await axios.get(
-        "https://guitar-in-soul.onrender.com/api/users/profile",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
 
-      if (data.user?.profileImage?.url) {
-        setPreview(data.user.profileImage.url);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  fetchProfile();
-}, []);
-  const [preview, setPreview] = useState("https://ui-avatars.com/api/?name=Kausik+Das&background=111827&color=fff&size=256");
 
   const handleCameraClick = () => {
     fileInputRef.current.click();
@@ -55,7 +37,7 @@ const ProfileBanner = () => {
     try {
       setLoading(true);
 
-      await axios.put(
+      const res = await axios.put(
         "https://guitar-in-soul.onrender.com/api/users/profile-image",
         formData,
         {
@@ -65,6 +47,13 @@ const ProfileBanner = () => {
           },
         }
       );
+
+
+      setProfile({
+        ...profile,
+        profileImage: res.data.user.profileImage.url
+      });
+
 
       alert("Profile image updated!");
     } catch (error) {

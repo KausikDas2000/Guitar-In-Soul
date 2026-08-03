@@ -103,8 +103,15 @@ export const getArrangementById = async (req, res) => {
     }
 
     // Increase view count
-    arrangement.views += 1;
-    await arrangement.save();
+   if (!arrangement.viewedBy.includes(req.user._id)) {
+
+  arrangement.views += 1;
+
+  arrangement.viewedBy.push(req.user._id);
+
+  await arrangement.save();
+
+}
 
     res.status(200).json({
       success: true,
@@ -302,4 +309,41 @@ export const incrementDownload = async (req, res) => {
       message: err.message,
     });
   }
+};
+
+export const addView = async (req, res) => {
+
+  try {
+
+    const arrangement = await Arrangement.findById(
+      req.params.id
+    );
+
+
+    if (!arrangement) {
+      return res.status(404).json({
+        message: "Arrangement not found"
+      });
+    }
+
+
+    arrangement.views += 1;
+
+    await arrangement.save();
+
+
+    res.json({
+      success: true,
+      views: arrangement.views
+    });
+
+
+  } catch(error){
+
+    res.status(500).json({
+      message:error.message
+    });
+
+  }
+
 };

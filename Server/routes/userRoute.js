@@ -5,6 +5,7 @@ import { updateProfileImage } from "../controllers/userController.js";
 import { getProfile } from "../controllers/userController.js";
 import { updateProfile } from "../controllers/userController.js";
 import { getProfileStats } from "../controllers/userController.js";
+import { getUserProfile } from "../controllers/userController.js";
 
 const router = express.Router();
 
@@ -25,5 +26,7 @@ router.put(
 );
 
 router.get("/profile/stats", protect, getProfileStats);
+
+router.get("/profile/:id", getUserProfile);
 
 export default router;

@@ -15,6 +15,8 @@ import {
 } from "../controllers/arrangementController.js";
 import { incrementDownload } from "../controllers/arrangementController.js";
 
+import { addView } from "../controllers/arrangementController.js";
+
 
 
 const router = express.Router();
@@ -67,5 +69,7 @@ router.put("/:id", protect, updateArrangement);
 router.put("/:id/like", protect, toggleLike);
 
 router.delete("/:id", protect, deleteArrangement);
+
+router.post("/:id/view", addView);
 
 export default router;

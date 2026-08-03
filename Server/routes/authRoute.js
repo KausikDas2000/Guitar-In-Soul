@@ -9,7 +9,9 @@ import {
   getCurrentUser,
   updateProfile,
   changePassword,
+  googleLogin,
 } from "../controllers/authController.js";
+
 
 
 
@@ -17,6 +19,7 @@ const router = express.Router();
 
 // Public Routes
 router.post("/register", registerUser);
+router.post("/google", googleLogin);
 router.post("/login", loginUser);
 
 // Protected Routes
