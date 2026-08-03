@@ -9,7 +9,7 @@ import {
   FiUser,
 } from "react-icons/fi";
 import API from "../../api/axios";
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -183,28 +183,40 @@ const Register = () => {
 
         </form>
 
-        <button
-          onClick={() => googleLogin()}
-          className="
-    w-full h-14 rounded-2xl
-    bg-white text-gray-800
-    border border-gray-200
-    shadow-lg
-    flex items-center justify-center gap-3
-    font-semibold text-lg
-    transition-all duration-300
-    hover:shadow-xl hover:-translate-y-1
-    active:scale-95
-  "
-        >
-          <img
-            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-            alt="Google"
-            className="w-6 h-6"
-          />
+      <div className="w-full mt-6">
+  <div className="rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+    <GoogleLogin
+      theme="outline"
+      size="large"
+      shape="pill"
+      width="100%"
+      text="Sign_Up_with"
+      onSuccess={async (credentialResponse) => {
+        try {
+          const res = await API.post("/auth/google", {
+            token: credentialResponse.credential,
+          });
 
-          Sign Up with Google
-        </button>
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem(
+            "user",
+            JSON.stringify(res.data.user)
+          );
+
+          navigate("/");
+
+        } catch (err) {
+          setMessage(
+            err.response?.data?.message || "Google login failed"
+          );
+        }
+      }}
+      onError={() => {
+        setMessage("Google Login Failed");
+      }}
+    />
+  </div>
+</div>
 
         <p className="text-center text-gray-500 mt-7">
           Already have an account?

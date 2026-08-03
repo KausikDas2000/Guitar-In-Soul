@@ -18,10 +18,33 @@ const Song = () => {
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
+  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     fetchSong();
   }, [id]);
+
+  useEffect(() => {
+  const checkFavorite = async () => {
+    try {
+      const res = await getFavorites();
+
+      const isSaved = res.favorites.some(
+        (fav) => fav._id === song._id
+      );
+
+      setFavorite(isSaved);
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  if (song?._id) {
+    checkFavorite();
+  }
+
+}, [song]);
 
 
 

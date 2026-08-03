@@ -8,7 +8,7 @@ import {
   FiEyeOff,
 } from "react-icons/fi";
 import API from "../../api/axios";
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
 
@@ -343,35 +343,40 @@ const Login = () => {
 
         </form>
 
-        <div className="mt-5">
+      <div className="w-full mt-6">
+  <div className="rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+    <GoogleLogin
+      theme="outline"
+      size="large"
+      shape="pill"
+      width="100%"
+      text="Continue_with"
+      onSuccess={async (credentialResponse) => {
+        try {
+          const res = await API.post("/auth/google", {
+            token: credentialResponse.credential,
+          });
 
-          <button
-            onClick={() => googleLogin()}
-            className="
-    w-full h-14 rounded-2xl
-    bg-white text-gray-800
-    border border-gray-200
-    shadow-lg
-    flex items-center justify-center gap-3
-    font-semibold text-lg
-    transition-all duration-300
-    hover:shadow-xl hover:-translate-y-1
-    active:scale-95
-  "
-          >
-            <img
-              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-              alt="Google"
-              className="w-6 h-6"
-            />
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem(
+            "user",
+            JSON.stringify(res.data.user)
+          );
 
-            Continue with Google
-          </button>
+          navigate("/");
 
-
-
-
-        </div>
+        } catch (err) {
+          setMessage(
+            err.response?.data?.message || "Google login failed"
+          );
+        }
+      }}
+      onError={() => {
+        setMessage("Google Login Failed");
+      }}
+    />
+  </div>
+</div>
 
 
 
