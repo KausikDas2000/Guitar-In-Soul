@@ -11,7 +11,7 @@ import { FaTrash } from "react-icons/fa";
 import { deleteSong } from "../services/songService";
 import { useNavigate } from "react-router-dom";
 import { incrementDownload } from "../services/songService";
-import { favoriteSong } from "../services/songService";
+
 const SongHeader = ({
   song,
   liked,
