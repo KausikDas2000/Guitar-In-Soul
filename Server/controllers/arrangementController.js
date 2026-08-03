@@ -94,7 +94,7 @@ export const getArrangementById = async (req, res) => {
   try {
 
     const arrangement = await Arrangement.findById(req.params.id)
-      .populate("uploader", "name email");
+      .populate("uploader", "name email profileImage");
 
 
     if (!arrangement) {
@@ -105,25 +105,32 @@ export const getArrangementById = async (req, res) => {
     }
 
 
-    // Count views only for logged-in users
-    if (req.user) {
+    // Get viewer information
+    const userId = req.user?._id?.toString() || null;
 
-      if (!arrangement.viewedBy.includes(req.user._id)) {
+    const ip =
+      req.headers["x-forwarded-for"] ||
+      req.socket.remoteAddress;
 
-        arrangement.views += 1;
 
-        arrangement.viewedBy.push(
-          req.user._id
-        );
+    // Check if already viewed
+    const alreadyViewed = arrangement.viewedBy.some(
+      (view) =>
+        (userId && view.user?.toString() === userId) ||
+        view.ip === ip
+    );
 
-        await arrangement.save();
 
-      }
+    // Increase only first time
+    if (!alreadyViewed) {
 
-    } else {
-
-      // Guest view
       arrangement.views += 1;
+
+      arrangement.viewedBy.push({
+        user: userId,
+        ip: ip
+      });
+
       await arrangement.save();
 
     }
@@ -145,9 +152,7 @@ export const getArrangementById = async (req, res) => {
     });
 
   }
-
 };
-
 
 
 

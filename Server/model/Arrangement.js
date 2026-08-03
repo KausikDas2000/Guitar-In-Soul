@@ -84,12 +84,25 @@ const arrangementSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-      viewedBy: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    }
-  ],
+
+    viewedBy: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          default: null
+        },
+
+        ip: {
+          type: String
+        },
+
+        createdAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    ],
 
     downloads: {
       type: Number,

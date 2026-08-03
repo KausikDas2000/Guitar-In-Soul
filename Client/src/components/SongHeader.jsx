@@ -17,6 +17,7 @@ const SongHeader = ({
   liked,
   likeCount,
   handleLike,
+  handleFavorite,
 }) => {
 
   const handleDownload = async () => {
@@ -65,16 +66,7 @@ const SongHeader = ({
   };
 
 
-  const [favorite, setFavorite] = useState(false);
-
-  const handleFavorite = async () => {
-    try {
-      const res = await favoriteSong(song._id);
-      setFavorite(res.favorite);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+ 
 
   const [showPreview, setShowPreview] = useState(false);
 
@@ -190,6 +182,7 @@ const SongHeader = ({
     w-full
     h-full
     min-h-[110px]
+    cursor-pointer
     rounded-2xl
     font-bold
     transition-all

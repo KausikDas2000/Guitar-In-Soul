@@ -47,6 +47,18 @@ const Song = () => {
 
 }, [song]);
 
+const handleFavorite = async () => {
+  try {
+
+    const res = await favoriteSong(song._id);
+
+    setFavorite(res.favorite);
+
+  } catch(err){
+    console.log(err);
+  }
+};
+
 
 
 
@@ -145,7 +157,8 @@ const Song = () => {
 
           <SongHeader song={song} liked={liked}
             likeCount={likeCount}
-            handleLike={handleLike} />
+            handleLike={handleLike} 
+             handleFavorite={handleFavorite}/>
           <div className="mt-10">
             <MusicPlayer audioUrl={song.audioFile?.url} />
           </div>
