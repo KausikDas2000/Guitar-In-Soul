@@ -20,6 +20,7 @@ import { addView } from "../controllers/arrangementController.js";
 
 
 const router = express.Router();
+router.post("/:id/view", addView);
 
 router.put(
   "/:id",
@@ -64,12 +65,10 @@ router.post(
   createArrangement
 );
 
-router.put("/:id", protect, updateArrangement);
 
 router.put("/:id/like", protect, toggleLike);
 
 router.delete("/:id", protect, deleteArrangement);
 
-router.post("/:id/view", addView);
 
 export default router;
