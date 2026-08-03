@@ -1,6 +1,6 @@
 import { FaCamera } from "react-icons/fa";
-import axios from "axios";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState } from "react";
+import API from "../../api/axios"
 
 
 
@@ -37,7 +37,7 @@ const ProfileBanner = ({ profile, setProfile }) => {
     try {
       setLoading(true);
 
-      const res = await axios.put(
+      const res = await API.put(
         "https://guitar-in-soul.onrender.com/api/users/profile-image",
         formData,
         {
