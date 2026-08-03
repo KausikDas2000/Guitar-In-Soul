@@ -92,38 +92,50 @@ export const getAllArrangements = async (req, res) => {
 
 export const getArrangementById = async (req, res) => {
   try {
+
     const arrangement = await Arrangement.findById(req.params.id)
       .populate("uploader", "name email");
 
+
     if (!arrangement) {
       return res.status(404).json({
-        success: false,
-        message: "Arrangement not found",
+        success:false,
+        message:"Arrangement not found"
       });
     }
 
-    // Increase view count
-   if (!arrangement.viewedBy.includes(req.user._id)) {
 
-  arrangement.views += 1;
+    const alreadyViewed = arrangement.viewedBy.some(
+      (userId) => userId.toString() === req.user._id.toString()
+    );
 
-  arrangement.viewedBy.push(req.user._id);
 
-  await arrangement.save();
+    if (!alreadyViewed) {
 
-}
+      arrangement.views += 1;
+
+      arrangement.viewedBy.push(req.user._id);
+
+      await arrangement.save();
+
+    }
+
 
     res.status(200).json({
-      success: true,
-      arrangement,
+      success:true,
+      arrangement
     });
-  } catch (error) {
+
+
+  } catch(error){
+
     console.log(error);
 
     res.status(500).json({
-      success: false,
-      message: error.message,
+      success:false,
+      message:error.message
     });
+
   }
 };
 

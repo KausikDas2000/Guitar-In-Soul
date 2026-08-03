@@ -9,7 +9,7 @@ import MusicPlayer from "../components/MusicPlayer";
 import { FaHeart } from "react-icons/fa";
 import { toggleLike } from "../services/songService";
 import { Helmet } from "react-helmet-async";
-import API from "../api/axios"
+
 
 const Song = () => {
   const { id } = useParams();
@@ -24,33 +24,7 @@ const Song = () => {
   }, [id]);
 
 
-  useEffect(() => {
-
-  const addView = async () => {
-
-    const viewed = localStorage.getItem(
-      `viewed-${id}`
-    );
-
-    if (!viewed) {
-
-      await API.post(
-        `/arrangements/${id}/view`
-      );
-
-      localStorage.setItem(
-        `viewed-${id}`,
-        true
-      );
-
-    }
-
-  };
-
-
-  addView();
-
-}, [id]);
+ 
 
   const fetchSong = async () => {
     try {
