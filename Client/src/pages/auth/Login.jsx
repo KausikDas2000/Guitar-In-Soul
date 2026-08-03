@@ -321,7 +321,7 @@ const Login = () => {
 
         </form>
 
-      <div className="w-full mt-6">
+      <div className=" google-login-full w-full mt-6">
   <div className="rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
     <GoogleLogin
       theme="outline"

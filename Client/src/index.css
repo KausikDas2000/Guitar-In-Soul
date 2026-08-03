@@ -57,3 +57,11 @@
 .animate-scaleIn{
  animation:scaleIn .3s ease;
 }
+
+.google-login-full > div {
+  width: 100% !important;
+}
+
+.google-login-full iframe {
+  width: 100% !important;
+}

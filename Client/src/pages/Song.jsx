@@ -9,6 +9,7 @@ import MusicPlayer from "../components/MusicPlayer";
 import { FaHeart } from "react-icons/fa";
 import { toggleLike } from "../services/songService";
 import { Helmet } from "react-helmet-async";
+import { getFavorites } from "../services/songService";
 
 
 const Song = () => {
