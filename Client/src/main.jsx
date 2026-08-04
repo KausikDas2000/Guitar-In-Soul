@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { HelmetProvider } from 'react-helmet-async'
 import ReactGA from "react-ga4";
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import { Analytics } from '@vercel/analytics/react'
 
 ReactGA.initialize("G-EJRWV7WEGF");
 
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')).render(
    <HelmetProvider>
 
      <App />
+     <Analytics/>
    </HelmetProvider>
 
   </GoogleOAuthProvider>

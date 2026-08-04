@@ -6,9 +6,28 @@ export const getAllSongs = async () => {
 };
 
 export const getSong = async (id) => {
-  const response = await api.get(`/arrangements/${id}`);
-  return response.data;
+  let visitorId = localStorage.getItem("visitorId");
+
+  if (!visitorId) {
+    visitorId = crypto.randomUUID();
+    localStorage.setItem("visitorId", visitorId);
+  }
+
+
+  const res = await api.get(
+    `/arrangements/${id}`,
+    {
+      headers: {
+        visitorid: visitorId
+      }
+    }
+  );
+
+
+  return res.data;
 };
+
+
 
 export const uploadSong = (formData) =>
   api.post("/arrangements", formData, {

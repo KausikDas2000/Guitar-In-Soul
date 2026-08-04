@@ -108,16 +108,14 @@ export const getArrangementById = async (req, res) => {
     // Get viewer information
     const userId = req.user?._id?.toString() || null;
 
-    const ip =
-      req.headers["x-forwarded-for"] ||
-      req.socket.remoteAddress;
+    const visitorId = req.headers.visitorid;
 
 
     // Check if already viewed
     const alreadyViewed = arrangement.viewedBy.some(
-      (view) =>
+      view =>
         (userId && view.user?.toString() === userId) ||
-        view.ip === ip
+        view.visitorId === visitorId
     );
 
 
@@ -128,11 +126,10 @@ export const getArrangementById = async (req, res) => {
 
       arrangement.viewedBy.push({
         user: userId,
-        ip: ip
+        visitorId
       });
 
       await arrangement.save();
-
     }
 
 
