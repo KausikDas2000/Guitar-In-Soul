@@ -79,280 +79,235 @@ const SongHeader = ({
       </div>
     );
   }
+
+
   return (
     <section
       className="
-      relative
-
-      overflow-hidden
-
-      rounded-[36px]
-
-      border
-      border-white/10
-
-      bg-gradient-to-br
-      from-[#0f172a]
-      via-[#111827]
-      to-black
-
-      shadow-[0_25px_80px_rgba(0,0,0,0.45)]
-
-      text-white
-    "
+    relative
+    overflow-hidden
+    rounded-[36px]
+    border
+    border-white/10
+    bg-gradient-to-br
+    from-[#0b1220]
+    via-[#101827]
+    to-black
+    shadow-[0_30px_90px_rgba(0,0,0,.55)]
+    text-white
+  "
     >
 
-      {/* Orange Glow */}
+      {/* Background Glow */}
+
+      <div className="absolute -top-40 -right-40 h-[420px] w-[420px] rounded-full bg-orange-500/20 blur-[130px]" />
+
+      <div className="absolute bottom-0 left-0 h-[350px] w-[350px] rounded-full bg-sky-500/10 blur-[120px]" />
 
       <div
         className="
-        absolute
-        -top-32
-        -right-32
-
-        h-80
-        w-80
-
-        rounded-full
-
-        bg-orange-500/20
-
-        blur-[120px]
-      "
-      />
-
-      {/* Blue Glow */}
-
-      <div
-        className="
-        absolute
-        bottom-0
-        left-0
-
-        h-72
-        w-72
-
-        rounded-full
-
-        bg-sky-500/10
-
-        blur-[100px]
-      "
-      />
-
-      {/* Main Content */}
-
-      <div
-        className="
-        relative
-
-        grid
-
-        gap-14
-
-        p-10
-
-        lg:grid-cols-[360px_1fr]
-      "
+      relative
+      grid
+      gap-14
+      p-10
+      lg:grid-cols-[380px_minmax(0,1fr)]
+    "
       >
 
-        {/* ================= ALBUM COVER ================= */}
+        {/* ================= LEFT SIDE ================= */}
 
         <div className="flex justify-center lg:justify-start">
 
           <div className="relative group">
 
-            {/* Orange Glow */}
+            {/* Glow */}
+
             <div
               className="
-        absolute
-        -inset-6
-
-        rounded-[40px]
-
-        bg-orange-500/25
-
-        blur-3xl
-
-        opacity-0
-
-        group-hover:opacity-100
-
-        transition-all
-        duration-700
-      "
+            absolute
+            -inset-6
+            rounded-[40px]
+            bg-orange-500/20
+            blur-3xl
+            opacity-0
+            transition-all
+            duration-700
+            group-hover:opacity-100
+          "
             />
 
-            {/* Vinyl Disc */}
+            {/* Vinyl */}
+
             <div
               className="
-        absolute
+            absolute
+            top-1/2
+            right-[-55px]
+            -translate-y-1/2
 
-        top-1/2
-        right-[-55px]
+            h-60
+            w-60
 
-        -translate-y-1/2
+            rounded-full
 
-        h-60
-        w-60
+            bg-gradient-to-br
+            from-zinc-900
+            via-zinc-700
+            to-black
 
-        rounded-full
+            border
+            border-zinc-600
 
-        bg-gradient-to-br
-        from-zinc-900
-        via-zinc-700
-        to-black
+            shadow-2xl
 
-        border
-        border-zinc-600
+            transition-all
+            duration-700
 
-        shadow-2xl
+            opacity-40
 
-        opacity-40
-
-        transition-all
-        duration-700
-
-        group-hover:right-[-80px]
-        group-hover:rotate-[360deg]
-      "
+            group-hover:right-[-85px]
+            group-hover:rotate-[360deg]
+          "
             >
 
-              {/* Vinyl Center */}
               <div
                 className="
-          absolute
-          left-1/2
-          top-1/2
+              absolute
+              left-1/2
+              top-1/2
 
-          h-12
-          w-12
+              h-12
+              w-12
 
-          -translate-x-1/2
-          -translate-y-1/2
+              -translate-x-1/2
+              -translate-y-1/2
 
-          rounded-full
+              rounded-full
 
-          bg-orange-500
+              bg-orange-500
 
-          border-4
-          border-zinc-900
-        "
+              border-4
+              border-zinc-900
+            "
               />
 
             </div>
 
             {/* Cover */}
+
             <img
               src={song.coverImage?.url}
               alt={song.title}
               className="
-        relative
-        z-10
+            relative
+            z-10
 
-        h-[340px]
-        w-[340px]
+            w-full
+            max-w-[340px]
+            aspect-square
 
-        rounded-[32px]
+            rounded-[32px]
 
-        object-cover
+            object-cover
 
-        shadow-[0_25px_60px_rgba(0,0,0,0.55)]
+            shadow-[0_25px_60px_rgba(0,0,0,.55)]
 
-        transition-all
-        duration-700
+            transition-all
+            duration-700
 
-        group-hover:scale-105
-      "
+            group-hover:scale-105
+          "
             />
 
-            {/* Dark Overlay */}
+            {/* Overlay */}
+
             <div
               className="
-        absolute
-        inset-0
-        z-20
+            absolute
+            inset-0
+            z-20
 
-        rounded-[32px]
+            rounded-[32px]
 
-        bg-gradient-to-t
-        from-black/70
-        via-transparent
-        to-transparent
-      "
+            bg-gradient-to-t
+            from-black/70
+            via-transparent
+            to-transparent
+          "
             />
 
-            {/* Play Button */}
+            {/* Play */}
+
             <button
+              onClick={() => setShowPreview(true)}
               className="
-        absolute
-        left-1/2
-        top-1/2
-        z-30
+            absolute
+            left-1/2
+            top-1/2
+            z-30
 
-        flex
-        h-20
-        w-20
+            flex
+            h-20
+            w-20
 
-        -translate-x-1/2
-        -translate-y-1/2
+            -translate-x-1/2
+            -translate-y-1/2
 
-        items-center
-        justify-center
+            items-center
+            justify-center
 
-        rounded-full
+            rounded-full
 
-        bg-white/20
+            border
+            border-white/30
 
-        backdrop-blur-xl
+            bg-white/20
 
-        border
-        border-white/30
+            backdrop-blur-xl
 
-        text-3xl
-        text-white
+            text-3xl
 
-        opacity-0
-        scale-75
+            opacity-0
+            scale-75
 
-        transition-all
-        duration-500
+            transition-all
+            duration-500
 
-        group-hover:scale-100
-        group-hover:opacity-100
-      "
+            group-hover:opacity-100
+            group-hover:scale-100
+          "
             >
               <FaPlay className="ml-1" />
             </button>
 
-            {/* Floating Music Badge */}
+            {/* Badge */}
+
             <div
               className="
-        absolute
-        bottom-5
-        left-5
-        z-30
+            absolute
+            bottom-5
+            left-5
+            z-30
 
-        flex
-        items-center
-        gap-2
+            flex
+            items-center
+            gap-2
 
-        rounded-full
+            rounded-full
 
-        bg-black/50
+            bg-black/50
 
-        backdrop-blur-xl
+            backdrop-blur-xl
 
-        px-4
-        py-2
+            border
+            border-white/10
 
-        text-sm
-        font-semibold
-        text-white
+            px-4
+            py-2
 
-        border
-        border-white/10
-      "
+            text-sm
+            font-semibold
+          "
             >
               <FaMusic className="text-orange-400" />
               Guitar In Soul
@@ -362,62 +317,57 @@ const SongHeader = ({
 
         </div>
 
-        {/* ================= SONG DETAILS ================= */}
+        {/* ================= RIGHT SIDE ================= */}
 
         <div className="flex flex-col justify-center">
 
-          {/* Small Label */}
-          <p className="uppercase tracking-[6px] text-orange-400 font-bold text-sm">
+          <p className="uppercase tracking-[7px] text-orange-400 font-bold text-sm">
             Guitar Arrangement
           </p>
 
-          {/* Song Title */}
           <h1
             className="
-      mt-3
+          mt-3
 
-      text-5xl
-      lg:text-6xl
+          text-5xl
+          lg:text-6xl
 
-      font-black
+          font-black
 
-      leading-tight
-
-      text-white
-    "
+          leading-tight
+        "
           >
             {song.title}
           </h1>
 
-          {/* Artist */}
           <div className="mt-5 flex items-center gap-3">
 
             <div
               className="
-        flex
-        h-12
-        w-12
+            flex
+            h-12
+            w-12
 
-        items-center
-        justify-center
+            items-center
+            justify-center
 
-        rounded-full
+            rounded-full
 
-        bg-orange-500/20
+            bg-orange-500/20
 
-        text-orange-400
-      "
+            text-orange-400
+          "
             >
               <FaMusic />
             </div>
 
             <div>
 
-              <p className="text-sm text-gray-400 uppercase tracking-wider">
+              <p className="text-sm uppercase tracking-widest text-gray-400">
                 Artist
               </p>
 
-              <h3 className="text-2xl font-bold text-white">
+              <h3 className="text-2xl font-bold">
                 {song.artist}
               </h3>
 
@@ -425,58 +375,57 @@ const SongHeader = ({
 
           </div>
 
-          {/* Genre + Difficulty */}
+          {/* Badges */}
+
           <div className="mt-8 flex flex-wrap gap-4">
 
             <span
               className="
-        rounded-full
+            rounded-full
 
-        border
-        border-orange-500/30
+            border
+            border-orange-500/30
 
-        bg-orange-500/15
+            bg-orange-500/15
 
-        px-5
-        py-2.5
+            px-5
+            py-2.5
 
-        font-semibold
+            font-semibold
 
-        text-orange-300
-      "
+            text-orange-300
+          "
             >
               🎸 {song.difficulty}
             </span>
 
             <span
               className="
-        rounded-full
+            rounded-full
 
-        border
-        border-sky-500/30
+            border
+            border-sky-500/30
 
-        bg-sky-500/15
+            bg-sky-500/15
 
-        px-5
-        py-2.5
+            px-5
+            py-2.5
 
-        font-semibold
+            font-semibold
 
-        text-sky-300
-      "
+            text-sky-300
+          "
             >
               🎵 {song.genre}
             </span>
 
           </div>
 
-          {/* Divider */}
           <div className="my-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-          {/* Uploader + Date */}
-          <div className="flex flex-wrap items-center justify-between gap-6">
+          {/* Uploader */}
 
-            {/* Uploader */}
+          <div className="flex items-center justify-between flex-wrap gap-6">
 
             <div className="flex items-center gap-4">
 
@@ -489,16 +438,16 @@ const SongHeader = ({
                 }
                 alt={song?.uploader?.name || "User"}
                 className="
-          h-16
-          w-16
+              h-16
+              w-16
 
-          rounded-full
+              rounded-full
 
-          border-2
-          border-orange-400
+              border-2
+              border-orange-400
 
-          object-cover
-        "
+              object-cover
+            "
               />
 
               <div>
@@ -507,7 +456,7 @@ const SongHeader = ({
                   Uploaded by
                 </p>
 
-                <h3 className="text-xl font-bold text-white">
+                <h3 className="text-xl font-bold">
                   {song.uploader?.name || "Unknown"}
                 </h3>
 
@@ -515,20 +464,18 @@ const SongHeader = ({
 
             </div>
 
-            {/* Date */}
-
             <div
               className="
-        rounded-2xl
+            rounded-2xl
 
-        border
-        border-white/10
+            border
+            border-white/10
 
-        bg-white/5
+            bg-white/5
 
-        px-5
-        py-4
-      "
+            px-5
+            py-4
+          "
             >
 
               <div className="flex items-center gap-2">
@@ -545,19 +492,21 @@ const SongHeader = ({
 
           </div>
 
-        </div>
 
 
-        {/* ================= PREMIUM STATS ================= */}
 
-        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-5">
 
-          {/* Likes */}
-          <div
-            onClick={handleLike}
-            className="
+
+
+          {/* ================= PREMIUM STATS ================= */}
+
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-5">
+
+            {/* Likes */}
+            <div
+              onClick={handleLike}
+              className="
       group
-
       cursor-pointer
 
       rounded-3xl
@@ -574,170 +523,131 @@ const SongHeader = ({
       transition-all
       duration-300
 
-      hover:-translate-y-1
+      hover:-translate-y-2
       hover:border-red-400/40
       hover:bg-red-500/10
     "
-          >
+            >
 
-            <FaHeart
-              className={`
+              <FaHeart
+                className={`
         text-3xl
+
         transition-all
         duration-300
 
         ${liked
-                  ? "text-red-500 scale-125"
-                  : "text-red-300 group-hover:text-red-400"
-                }
+                    ? "text-red-500 scale-125"
+                    : "text-red-300 group-hover:text-red-400"
+                  }
       `}
-            />
+              />
 
-            <h2 className="mt-4 text-3xl font-bold">
-              {likeCount}
-            </h2>
+              <h2 className="mt-5 text-3xl font-bold text-white">
+                {likeCount}
+              </h2>
 
-            <p className="mt-1 text-sm text-gray-400">
-              {liked ? "Liked" : "Likes"}
-            </p>
+              <p className="mt-1 text-gray-400">
+                {liked ? "Liked" : "Likes"}
+              </p>
 
-          </div>
+            </div>
 
-          {/* Views */}
+            {/* Views */}
 
-          <div
-            className="
-      rounded-3xl
-
-      border
-      border-white/10
-
-      bg-white/5
-
-      backdrop-blur-xl
-
-      p-6
-
-      transition-all
-      duration-300
-
-      hover:-translate-y-1
-      hover:border-sky-400/40
-    "
-          >
-
-            <FaEye className="text-3xl text-sky-400" />
-
-            <h2 className="mt-4 text-3xl font-bold">
-              {song.views}
-            </h2>
-
-            <p className="mt-1 text-sm text-gray-400">
-              Views
-            </p>
-
-          </div>
-
-          {/* Downloads */}
-
-          <div
-            className="
-      rounded-3xl
-
-      border
-      border-white/10
-
-      bg-white/5
-
-      backdrop-blur-xl
-
-      p-6
-
-      transition-all
-      duration-300
-
-      hover:-translate-y-1
-      hover:border-green-400/40
-    "
-          >
-
-            <FaDownload className="text-3xl text-green-400" />
-
-            <h2 className="mt-4 text-3xl font-bold">
-              {song.downloads}
-            </h2>
-
-            <p className="mt-1 text-sm text-gray-400">
-              Downloads
-            </p>
-
-          </div>
-
-          {/* Favorites */}
-
-          <button
-            onClick={handleFavorite}
-            className={`
-      rounded-3xl
-
-      border
-
-      backdrop-blur-xl
-
-      p-6
-
-      text-left
-
-      transition-all
-      duration-300
-
-      hover:-translate-y-1
-
-      ${favorite
-                ? "bg-orange-500 border-orange-400 text-white shadow-lg shadow-orange-500/30"
-                : "bg-white/5 border-white/10 hover:border-orange-400/40"
-              }
-    `}
-          >
-
-            <FaHeart
-              className={`
-        text-3xl
-
-        ${favorite
-                  ? "text-white"
-                  : "text-orange-400"
-                }
-      `}
-            />
-
-            <h2 className="mt-4 text-2xl font-bold">
-              {favorite ? "Saved" : "Save"}
-            </h2>
-
-            <p className="mt-1 text-sm opacity-80">
-              {favorite
-                ? "In your library"
-                : "Add to Favorites"}
-            </p>
-
-          </button>
-
-        </div>
-
-
-
-        {/* ================= ACTION BAR ================= */}
-
-        <div className="mt-10">
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-
-            {/* Preview */}
-
-            <button
-              onClick={() => setShowPreview(true)}
+            <div
               className="
+      rounded-3xl
+
+      border
+      border-white/10
+
+      bg-white/5
+
+      backdrop-blur-xl
+
+      p-6
+
+      transition-all
+      duration-300
+
+      hover:-translate-y-2
+      hover:border-sky-400/40
+      hover:bg-sky-500/10
+    "
+            >
+
+              <FaEye className="text-3xl text-sky-400" />
+
+              <h2 className="mt-5 text-3xl font-bold text-white">
+                {song.views}
+              </h2>
+
+              <p className="mt-1 text-gray-400">
+                Views
+              </p>
+
+            </div>
+
+            {/* Downloads */}
+
+            <div
+              className="
+      rounded-3xl
+
+      border
+      border-white/10
+
+      bg-white/5
+
+      backdrop-blur-xl
+
+      p-6
+
+      transition-all
+      duration-300
+
+      hover:-translate-y-2
+      hover:border-green-400/40
+      hover:bg-green-500/10
+    "
+            >
+
+              <FaDownload className="text-3xl text-green-400" />
+
+              <h2 className="mt-5 text-3xl font-bold text-white">
+                {song.downloads}
+              </h2>
+
+              <p className="mt-1 text-gray-400">
+                Downloads
+              </p>
+
+            </div>
+
+          </div>
+
+          {/* ================= ACTION BAR ================= */}
+
+          <div className="mt-10">
+
+            <div
+              className={`
+      grid
+      gap-5
+
+      ${(user?._id === song.uploader?._id || user?.role === "admin")
+                  ? "grid-cols-1 md:grid-cols-3"
+                  : "grid-cols-1 md:grid-cols-2"
+                }
+    `}
+            >
+
+              {/* Preview */}
+
+              <button
+                onClick={() => setShowPreview(true)}
+                className="
         group
 
         flex
@@ -747,7 +657,7 @@ const SongHeader = ({
 
         rounded-2xl
 
-        py-4
+        h-20
 
         bg-gradient-to-r
         from-orange-500
@@ -755,55 +665,36 @@ const SongHeader = ({
 
         text-white
         font-semibold
+        text-lg
 
         shadow-lg
-        shadow-orange-500/20
+        shadow-orange-500/30
 
         transition-all
         duration-300
 
-        hover:-translate-y-1
+        hover:-translate-y-2
         hover:scale-[1.02]
-        hover:shadow-orange-500/40
+        hover:shadow-orange-500/50
       "
-            >
-
-              <FaPlay
-                className="
+              >
+                <FaPlay
+                  className="
           transition-transform
           duration-300
           group-hover:translate-x-1
         "
-              />
+                />
 
-              Preview
+                Preview Arrangement
 
-            </button>
+              </button>
 
-            {showPreview && (
-              <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
-                <div className="relative w-11/12 h-5/6 bg-white rounded-xl overflow-hidden">
-                  <button
-                    onClick={() => setShowPreview(false)}
-                    className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded"
-                  >
-                    ✕
-                  </button>
+              {/* Download */}
 
-                  <iframe
-                    src={song.notationPdf?.url}
-                    title="PDF Preview"
-                    className="w-full h-full"
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Download */}
-
-            <button
-              onClick={handleDownload}
-              className="
+              <button
+                onClick={handleDownload}
+                className="
         group
 
         flex
@@ -813,7 +704,7 @@ const SongHeader = ({
 
         rounded-2xl
 
-        py-4
+        h-20
 
         bg-zinc-800
 
@@ -822,82 +713,37 @@ const SongHeader = ({
 
         text-white
         font-semibold
+        text-lg
 
         transition-all
         duration-300
 
-        hover:-translate-y-1
+        hover:-translate-y-2
         hover:bg-zinc-700
-        hover:border-zinc-500
+        hover:border-orange-500
       "
-            >
+              >
 
-              <FaDownload
-                className="
+                <FaDownload
+                  className="
           transition-transform
           duration-300
           group-hover:-translate-y-1
         "
-              />
+                />
 
-              Download
+                Download PDF
 
-            </button>
+              </button>
 
-            {/* Favorite */}
+              {/* Delete */}
 
-            <button
-              onClick={handleFavorite}
-              className={`
-        group
+              {(user?._id === song.uploader?._id ||
+                user?.role === "admin") && (
 
-        flex
-        items-center
-        justify-center
-        gap-3
-
-        rounded-2xl
-
-        py-4
-
-        font-semibold
-
-        transition-all
-        duration-300
-
-        hover:-translate-y-1
-
-        ${favorite
-                  ? "bg-red-500 text-white shadow-lg shadow-red-500/30"
-                  : "bg-white/5 border border-white/10 text-white hover:bg-red-500 hover:border-red-500"
-                }
-      `}
-            >
-
-              <FaHeart
-                className={`
-          transition-transform
-          duration-300
-
-          ${favorite
-                    ? "scale-110"
-                    : "group-hover:scale-110"
-                  }
-        `}
-              />
-
-              {favorite ? "Saved" : "Favorite"}
-
-            </button>
-
-            {/* Delete */}
-
-            {(user?._id === song.uploader?._id ||
-              user?.role === "admin") && (
-
-                <button
-                  onClick={handleDelete}
-                  className="
+                  <button
+                    onClick={handleDelete}
+                    className="
           group
 
           flex
@@ -907,7 +753,7 @@ const SongHeader = ({
 
           rounded-2xl
 
-          py-4
+          h-20
 
           bg-red-500/10
 
@@ -916,41 +762,88 @@ const SongHeader = ({
 
           text-red-300
           font-semibold
+          text-lg
 
           transition-all
           duration-300
 
-          hover:-translate-y-1
+          hover:-translate-y-2
           hover:bg-red-500
           hover:text-white
+          hover:border-red-500
+          hover:shadow-xl
+          hover:shadow-red-500/30
         "
-                >
+                  >
 
-                  <FaTrash
-                    className="
+                    <FaTrash
+                      className="
             transition-transform
             duration-300
             group-hover:rotate-12
           "
-                  />
+                    />
 
-                  Delete
+                    Delete Arrangement
 
-                </button>
+                  </button>
 
-              )}
+                )}
+
+            </div>
 
           </div>
 
-        </div>
+          {/* PDF Preview Modal */}
 
-        {/* ================= CREATOR CARD ================= */}
+          {showPreview && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
 
-        <div
-          className="
+              <div className="relative h-[90vh] w-[92vw] overflow-hidden rounded-3xl bg-white shadow-2xl">
+
+                <button
+                  onClick={() => setShowPreview(false)}
+                  className="
+          absolute
+          right-5
+          top-5
+          z-20
+
+          rounded-full
+
+          bg-red-500
+
+          px-4
+          py-2
+
+          font-bold
+          text-white
+
+          transition
+          hover:bg-red-600
+        "
+                >
+                  ✕
+                </button>
+
+                <iframe
+                  src={song.notationPdf?.url}
+                  title="PDF Preview"
+                  className="h-full w-full"
+                />
+
+              </div>
+
+            </div>
+          )}
+
+          {/* ================= CREATOR CARD ================= */}
+
+          <div
+            className="
     mt-12
 
-    rounded-[30px]
+    rounded-[32px]
 
     border
     border-white/10
@@ -959,88 +852,88 @@ const SongHeader = ({
 
     backdrop-blur-2xl
 
-    p-6
+    p-8
 
     transition-all
     duration-300
 
-    hover:border-orange-400/40
+    hover:border-orange-500/40
     hover:bg-white/10
   "
-        >
+          >
 
-          <p className="text-sm uppercase tracking-[5px] text-gray-400 mb-6">
-            Arrangement Creator
-          </p>
+            <p className="mb-6 text-sm font-bold uppercase tracking-[5px] text-orange-400">
+              Arrangement Creator
+            </p>
 
-          <div className="flex items-center justify-between flex-wrap gap-6">
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
 
-            {/* Left */}
+              {/* Left Side */}
 
-            <div className="flex items-center gap-5">
+              <div className="flex items-center gap-5">
 
-              <div className="relative">
+                <div className="relative">
 
-                <img
-                  src={
-                    song?.uploader?.profileImage?.url ||
-                    `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                      song?.uploader?.name || "User"
-                    )}&background=f97316&color=fff`
-                  }
-                  alt={song?.uploader?.name || "User"}
-                  className="
-            h-20
-            w-20
+                  <img
+                    src={
+                      song?.uploader?.profileImage?.url ||
+                      `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                        song?.uploader?.name || "User"
+                      )}&background=f97316&color=fff`
+                    }
+                    alt={song?.uploader?.name || "User"}
+                    className="
+            h-24
+            w-24
 
             rounded-full
-
-            object-cover
 
             border-4
             border-orange-500
 
-            shadow-xl
+            object-cover
+
+            shadow-2xl
           "
-                />
+                  />
 
-                {/* Online Badge */}
+                  {/* Online Dot */}
 
-                <div
-                  className="
+                  <span
+                    className="
             absolute
-            bottom-1
-            right-1
+            bottom-2
+            right-2
 
             h-5
             w-5
 
             rounded-full
 
-            bg-green-500
-
             border-2
-            border-zinc-900
+            border-[#111827]
+
+            bg-green-500
           "
-                />
+                  />
 
-              </div>
+                </div>
 
-              <div>
+                <div>
 
-                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
 
-                  <h3 className="text-2xl font-bold">
-                    {song.uploader?.name || "Unknown"}
-                  </h3>
+                    <h2 className="text-3xl font-bold">
+                      {song.uploader?.name || "Unknown"}
+                    </h2>
 
-                  <span
-                    className="
+                    <span
+                      className="
               rounded-full
 
               bg-sky-500/20
 
-              px-2.5
+              px-3
               py-1
 
               text-xs
@@ -1048,67 +941,69 @@ const SongHeader = ({
 
               text-sky-300
             "
-                  >
-                    VERIFIED
-                  </span>
+                    >
+                      VERIFIED
+                    </span>
+
+                  </div>
+
+                  <p className="mt-2 text-gray-400">
+                    Passionate Guitar Arrangement Creator
+                  </p>
 
                 </div>
 
-                <p className="mt-1 text-gray-400">
-                  Uploaded this arrangement
-                </p>
-
               </div>
 
-            </div>
+              {/* Right Side */}
 
-            {/* Right */}
+              <div className="grid grid-cols-2 gap-4">
 
-            <div className="grid grid-cols-2 gap-4">
-
-              <div
-                className="
+                <div
+                  className="
           rounded-2xl
 
           bg-black/30
 
-          px-6
-          py-4
+          px-8
+          h-20
 
           text-center
         "
-              >
+                >
 
-                <p className="text-sm text-gray-400">
-                  Uploaded
-                </p>
+                  <p className="text-sm text-gray-400">
+                    Uploaded
+                  </p>
 
-                <h3 className="mt-1 font-bold text-lg">
-                  {new Date(song.createdAt).toLocaleDateString()}
-                </h3>
+                  <h3 className="mt-2 text-lg font-bold">
+                    {new Date(song.createdAt).toLocaleDateString()}
+                  </h3>
 
-              </div>
+                </div>
 
-              <div
-                className="
+                <div
+                  className="
           rounded-2xl
 
           bg-black/30
 
-          px-6
-          py-4
+          px-8
+          h-20
 
           text-center
         "
-              >
+                >
 
-                <p className="text-sm text-gray-400">
-                  Genre
-                </p>
+                  <p className="text-sm text-gray-400">
+                    Genre
+                  </p>
 
-                <h3 className="mt-1 font-bold text-lg">
-                  {song.genre}
-                </h3>
+                  <h3 className="mt-2 text-lg font-bold">
+                    {song.genre}
+                  </h3>
+
+                </div>
 
               </div>
 
@@ -1116,15 +1011,15 @@ const SongHeader = ({
 
           </div>
 
-        </div>
+          {/* ================= ABOUT ARRANGEMENT ================= */}
 
-        {/* ================= ABOUT ARRANGEMENT ================= */}
-
-        <div
-          className="
+          <div
+            className="
     mt-12
 
-    rounded-[30px]
+    overflow-hidden
+
+    rounded-[32px]
 
     border
     border-white/10
@@ -1132,32 +1027,31 @@ const SongHeader = ({
     bg-white/5
 
     backdrop-blur-2xl
-
-    overflow-hidden
   "
-        >
-
-          {/* Header */}
-
-          <div
-            className="
-      flex
-      items-center
-      gap-4
-
-      px-8
-      py-6
-
-      border-b
-      border-white/10
-    "
           >
+
+            {/* Header */}
 
             <div
               className="
+      flex
+      items-center
+      gap-5
+
+      border-b
+      border-white/10
+
+      px-8
+      py-7
+    "
+            >
+
+              <div
+                className="
         flex
-        h-14
-        w-14
+
+        h-16
+        w-16
 
         items-center
         justify-center
@@ -1168,58 +1062,60 @@ const SongHeader = ({
         from-orange-500
         to-orange-600
 
-        text-2xl
+        text-3xl
 
-        shadow-lg
+        shadow-xl
         shadow-orange-500/30
       "
-            >
-              📖
+              >
+                📖
+              </div>
+
+              <div>
+
+                <p className="text-sm uppercase tracking-[6px] text-gray-400">
+                  Description
+                </p>
+
+                <h2 className="text-3xl font-bold text-white">
+                  About this Arrangement
+                </h2>
+
+              </div>
+
             </div>
 
-            <div>
+            {/* Body */}
 
-              <p className="text-sm uppercase tracking-[5px] text-gray-400">
-                Information
-              </p>
+            <div className="p-8">
 
-              <h2 className="text-3xl font-bold">
-                About this Arrangement
-              </h2>
+              <p
+                className="
+        whitespace-pre-line
 
-            </div>
-
-          </div>
-
-          {/* Content */}
-
-          <div className="p-8">
-
-            <p
-              className="
         text-lg
 
-        leading-9
+        leading-10
 
         text-gray-300
-
-        whitespace-pre-line
       "
-            >
-              {song.description ||
-                "No description has been added for this arrangement yet."}
-            </p>
+              >
+                {song.description ||
+                  "No description has been added for this arrangement yet."}
+              </p>
+
+            </div>
 
           </div>
 
         </div>
 
-
-
       </div>
 
     </section>
   );
+
 };
+
 
 export default SongHeader;
