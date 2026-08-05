@@ -1175,6 +1175,11 @@ const SongHeader = ({
 
           </div>
 
+        </div>
+
+
+      </div>
+
         </section>
         );
 
