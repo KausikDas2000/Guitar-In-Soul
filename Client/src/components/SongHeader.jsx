@@ -5,6 +5,7 @@ import {
   FaUserCircle,
   FaPlay,
   FaMusic,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
