@@ -658,6 +658,7 @@ const SongHeader = ({
         rounded-2xl
 
         h-20
+        px-6
 
         bg-gradient-to-r
         from-orange-500
@@ -705,6 +706,7 @@ const SongHeader = ({
         rounded-2xl
 
         h-20
+        px-6
 
         bg-zinc-800
 
@@ -754,6 +756,7 @@ const SongHeader = ({
           rounded-2xl
 
           h-20
+          px-6
 
           bg-red-500/10
 
