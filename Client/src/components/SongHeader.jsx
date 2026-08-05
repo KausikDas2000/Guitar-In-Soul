@@ -637,40 +637,26 @@ const SongHeader = ({
       gap-5
 
       ${(user?._id === song.uploader?._id || user?.role === "admin")
-                  ? "grid-cols-1 md:grid-cols-3"
-                  : "grid-cols-1 md:grid-cols-2"
+                  ? "grid-cols-1 md:grid-cols-4"
+                  : "grid-cols-1 md:grid-cols-3"
                 }
     `}
             >
 
-              {/* ================= ACTION BAR ================= */}
+              {/* Preview */}
 
-              <div className="mt-10">
-
-                <div
-                  className={`
-      grid
-      gap-5
-
-      ${(String(user?._id) === String(song.uploader?._id) ||
-                      user?.role === "admin")
-                      ? "grid-cols-1 md:grid-cols-4"
-                      : "grid-cols-1 md:grid-cols-3"
-                    }
-    `}
-                >
-
-                  {/* Preview */}
-
-                  <button
-                    onClick={() => setShowPreview(true)}
-                    className="
+              <button
+                onClick={() => setShowPreview(true)}
+                className="
         group
+
         flex
         items-center
         justify-center
         gap-3
+
         rounded-2xl
+
         h-20
 
         bg-gradient-to-r
@@ -689,33 +675,35 @@ const SongHeader = ({
 
         hover:-translate-y-2
         hover:scale-[1.02]
+        hover:shadow-orange-500/50
       "
-                  >
-                    <FaPlay
-                      className="
+              >
+                <FaPlay
+                  className="
           transition-transform
           duration-300
           group-hover:translate-x-1
         "
-                    />
+                />
 
-                    Preview Arrangement
+                Preview Arrangement
 
-                  </button>
+              </button>
 
+              {/* Download */}
 
-                  {/* Download */}
-
-                  <button
-                    onClick={handleDownload}
-                    className="
+              <button
+                onClick={handleDownload}
+                className="
         group
+
         flex
         items-center
         justify-center
         gap-3
 
         rounded-2xl
+
         h-20
 
         bg-zinc-800
@@ -734,77 +722,28 @@ const SongHeader = ({
         hover:bg-zinc-700
         hover:border-orange-500
       "
-                  >
+              >
 
-                    <FaDownload
-                      className="
+                <FaDownload
+                  className="
           transition-transform
           duration-300
           group-hover:-translate-y-1
         "
-                    />
+                />
 
-                    Download PDF
+                Download PDF
 
-                  </button>
+              </button>
 
+              {/* Delete */}
 
-                  {/* Save */}
+              {(user?._id === song.uploader?._id ||
+                user?.role === "admin") && (
 
                   <button
-                    onClick={handleFavorite}
-                    className={`
-        group
-        flex
-        items-center
-        justify-center
-        gap-3
-
-        rounded-2xl
-        h-20
-
-        font-semibold
-        text-lg
-
-        transition-all
-        duration-300
-
-        hover:-translate-y-2
-
-        ${favorite
-                        ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
-                        : "bg-zinc-800 border border-zinc-700 text-white hover:bg-zinc-700"
-                      }
-      `}
-                  >
-
-                    <FaHeart
-                      className={`
-          text-xl
-          transition-transform
-          duration-300
-          group-hover:scale-125
-
-          ${favorite
-                          ? "text-white"
-                          : "text-orange-400"
-                        }
-        `}
-                    />
-
-                    {favorite ? "Saved" : "Save"}
-
-                  </button>
-
-
-                  {/* Delete - Only Owner/Admin */}
-
-                  {(String(user?._id) === String(song.uploader?._id) ||
-                    user?.role === "admin") && (
-
-                      <button
-                        onClick={handleDelete}
-                        className="
+                    onClick={handleDelete}
+                    className="
           group
 
           flex
@@ -822,7 +761,6 @@ const SongHeader = ({
           border-red-500/30
 
           text-red-300
-
           font-semibold
           text-lg
 
@@ -833,40 +771,86 @@ const SongHeader = ({
           hover:bg-red-500
           hover:text-white
           hover:border-red-500
-
           hover:shadow-xl
           hover:shadow-red-500/30
         "
-                      >
+                  >
 
-                        <FaTrash
-                          className="
+                    <FaTrash
+                      className="
             transition-transform
             duration-300
             group-hover:rotate-12
           "
-                        />
+                    />
 
-                        Delete Arrangement
+                    Delete Arrangement
 
-                      </button>
+                  </button>
 
-                    )}
+                )}
+              {/* Save */}
 
-                </div>
+              <button
+                onClick={handleFavorite}
+                className={`
+    group
 
-              </div>
+    flex
+    items-center
+    justify-center
+    gap-3
 
-              {/* PDF Preview Modal */}
+    rounded-2xl
 
-              {showPreview && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+    h-20
 
-                  <div className="relative h-[90vh] w-[92vw] overflow-hidden rounded-3xl bg-white shadow-2xl">
+    font-semibold
+    text-lg
 
-                    <button
-                      onClick={() => setShowPreview(false)}
-                      className="
+    transition-all
+    duration-300
+
+    hover:-translate-y-2
+
+    ${favorite
+                    ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
+                    : "bg-zinc-800 border border-zinc-700 text-white hover:bg-zinc-700"
+                  }
+  `}
+              >
+                <FaHeart
+                  className={`
+      text-xl
+      transition-transform
+      duration-300
+      group-hover:scale-125
+
+      ${favorite
+                      ? "text-white"
+                      : "text-orange-400"
+                    }
+    `}
+                />
+
+                {favorite ? "Saved" : "Save"}
+
+              </button>
+
+            </div>
+
+          </div>
+
+          {/* PDF Preview Modal */}
+
+          {showPreview && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+
+              <div className="relative h-[90vh] w-[92vw] overflow-hidden rounded-3xl bg-white shadow-2xl">
+
+                <button
+                  onClick={() => setShowPreview(false)}
+                  className="
           absolute
           right-5
           top-5
@@ -885,25 +869,25 @@ const SongHeader = ({
           transition
           hover:bg-red-600
         "
-                    >
-                      ✕
-                    </button>
+                >
+                  ✕
+                </button>
 
-                    <iframe
-                      src={song.notationPdf?.url}
-                      title="PDF Preview"
-                      className="h-full w-full"
-                    />
+                <iframe
+                  src={song.notationPdf?.url}
+                  title="PDF Preview"
+                  className="h-full w-full"
+                />
 
-                  </div>
+              </div>
 
-                </div>
-              )}
+            </div>
+          )}
 
-              {/* ================= CREATOR CARD ================= */}
+          {/* ================= CREATOR CARD ================= */}
 
-              <div
-                className="
+          <div
+            className="
     mt-12
 
     rounded-[32px]
@@ -923,29 +907,29 @@ const SongHeader = ({
     hover:border-orange-500/40
     hover:bg-white/10
   "
-              >
+          >
 
-                <p className="mb-6 text-sm font-bold uppercase tracking-[5px] text-orange-400">
-                  Arrangement Creator
-                </p>
+            <p className="mb-6 text-sm font-bold uppercase tracking-[5px] text-orange-400">
+              Arrangement Creator
+            </p>
 
-                <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
 
-                  {/* Left Side */}
+              {/* Left Side */}
 
-                  <div className="flex items-center gap-5">
+              <div className="flex items-center gap-5">
 
-                    <div className="relative">
+                <div className="relative">
 
-                      <img
-                        src={
-                          song?.uploader?.profileImage?.url ||
-                          `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                            song?.uploader?.name || "User"
-                          )}&background=f97316&color=fff`
-                        }
-                        alt={song?.uploader?.name || "User"}
-                        className="
+                  <img
+                    src={
+                      song?.uploader?.profileImage?.url ||
+                      `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                        song?.uploader?.name || "User"
+                      )}&background=f97316&color=fff`
+                    }
+                    alt={song?.uploader?.name || "User"}
+                    className="
             h-24
             w-24
 
@@ -958,12 +942,12 @@ const SongHeader = ({
 
             shadow-2xl
           "
-                      />
+                  />
 
-                      {/* Online Dot */}
+                  {/* Online Dot */}
 
-                      <span
-                        className="
+                  <span
+                    className="
             absolute
             bottom-2
             right-2
@@ -978,20 +962,20 @@ const SongHeader = ({
 
             bg-green-500
           "
-                      />
+                  />
 
-                    </div>
+                </div>
 
-                    <div>
+                <div>
 
-                      <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3">
 
-                        <h2 className="text-3xl font-bold">
-                          {song.uploader?.name || "Unknown"}
-                        </h2>
+                    <h2 className="text-3xl font-bold">
+                      {song.uploader?.name || "Unknown"}
+                    </h2>
 
-                        <span
-                          className="
+                    <span
+                      className="
               rounded-full
 
               bg-sky-500/20
@@ -1004,80 +988,80 @@ const SongHeader = ({
 
               text-sky-300
             "
-                        >
-                          VERIFIED
-                        </span>
-
-                      </div>
-
-                      <p className="mt-2 text-gray-400">
-                        Passionate Guitar Arrangement Creator
-                      </p>
-
-                    </div>
+                    >
+                      VERIFIED
+                    </span>
 
                   </div>
 
-                  {/* Right Side */}
-
-                  <div className="grid grid-cols-2 gap-4">
-
-                    <div
-                      className="
-          rounded-2xl
-
-          bg-black/30
-
-          px-8
-          h-20
-
-          text-center
-        "
-                    >
-
-                      <p className="text-sm text-gray-400">
-                        Uploaded
-                      </p>
-
-                      <h3 className="mt-2 text-lg font-bold">
-                        {new Date(song.createdAt).toLocaleDateString()}
-                      </h3>
-
-                    </div>
-
-                    <div
-                      className="
-          rounded-2xl
-
-          bg-black/30
-
-          px-8
-          h-20
-
-          text-center
-        "
-                    >
-
-                      <p className="text-sm text-gray-400">
-                        Genre
-                      </p>
-
-                      <h3 className="mt-2 text-lg font-bold">
-                        {song.genre}
-                      </h3>
-
-                    </div>
-
-                  </div>
+                  <p className="mt-2 text-gray-400">
+                    Passionate Guitar Arrangement Creator
+                  </p>
 
                 </div>
 
               </div>
 
-              {/* ================= ABOUT ARRANGEMENT ================= */}
+              {/* Right Side */}
 
-              <div
-                className="
+              <div className="grid grid-cols-2 gap-4">
+
+                <div
+                  className="
+          rounded-2xl
+
+          bg-black/30
+
+          px-8
+          h-20
+
+          text-center
+        "
+                >
+
+                  <p className="text-sm text-gray-400">
+                    Uploaded
+                  </p>
+
+                  <h3 className="mt-2 text-lg font-bold">
+                    {new Date(song.createdAt).toLocaleDateString()}
+                  </h3>
+
+                </div>
+
+                <div
+                  className="
+          rounded-2xl
+
+          bg-black/30
+
+          px-8
+          h-20
+
+          text-center
+        "
+                >
+
+                  <p className="text-sm text-gray-400">
+                    Genre
+                  </p>
+
+                  <h3 className="mt-2 text-lg font-bold">
+                    {song.genre}
+                  </h3>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* ================= ABOUT ARRANGEMENT ================= */}
+
+          <div
+            className="
     mt-12
 
     overflow-hidden
@@ -1091,12 +1075,12 @@ const SongHeader = ({
 
     backdrop-blur-2xl
   "
-              >
+          >
 
-                {/* Header */}
+            {/* Header */}
 
-                <div
-                  className="
+            <div
+              className="
       flex
       items-center
       gap-5
@@ -1107,10 +1091,10 @@ const SongHeader = ({
       px-8
       py-7
     "
-                >
+            >
 
-                  <div
-                    className="
+              <div
+                className="
         flex
 
         h-16
@@ -1130,30 +1114,30 @@ const SongHeader = ({
         shadow-xl
         shadow-orange-500/30
       "
-                  >
-                    📖
-                  </div>
+              >
+                📖
+              </div>
 
-                  <div>
+              <div>
 
-                    <p className="text-sm uppercase tracking-[6px] text-gray-400">
-                      Description
-                    </p>
+                <p className="text-sm uppercase tracking-[6px] text-gray-400">
+                  Description
+                </p>
 
-                    <h2 className="text-3xl font-bold text-white">
-                      About this Arrangement
-                    </h2>
+                <h2 className="text-3xl font-bold text-white">
+                  About this Arrangement
+                </h2>
 
-                  </div>
+              </div>
 
-                </div>
+            </div>
 
-                {/* Body */}
+            {/* Body */}
 
-                <div className="p-8">
+            <div className="p-8">
 
-                  <p
-                    className="
+              <p
+                className="
         whitespace-pre-line
 
         text-lg
@@ -1162,14 +1146,10 @@ const SongHeader = ({
 
         text-gray-300
       "
-                  >
-                    {song.description ||
-                      "No description has been added for this arrangement yet."}
-                  </p>
-
-                </div>
-
-              </div>
+              >
+                {song.description ||
+                  "No description has been added for this arrangement yet."}
+              </p>
 
             </div>
 
@@ -1177,13 +1157,12 @@ const SongHeader = ({
 
         </div>
 
-
       </div>
 
-        </section>
-        );
+    </section>
+  );
 
 };
 
 
-        export default SongHeader;
+export default SongHeader;
