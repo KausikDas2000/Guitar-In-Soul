@@ -19,13 +19,13 @@ const SongCard = ({ song }) => {
 
   return (
     <div
-      className="
-     group
-    relative
-    w-full
-    max-w-[460px]
-    h-[680px]
-      rounded-[28px]
+        className="
+      group
+      relative
+      w-full
+      max-w-[460px]
+      h-[760px]
+        rounded-[28px]
       overflow-hidden
       cursor-pointer
 
@@ -43,7 +43,7 @@ const SongCard = ({ song }) => {
     >
 
       {/* Cover Image */}
-      <div className="relative h-full w-full overflow-hidden">
+      <div className="relative h-[58%] w-full overflow-hidden">
 
         {/* Cover */}
         <img
@@ -251,7 +251,7 @@ const SongCard = ({ song }) => {
     left-0
     right-0
 
-    p-5
+    p-7
 
     backdrop-blur-2xl
     bg-black/45
@@ -259,7 +259,7 @@ const SongCard = ({ song }) => {
     border-t
     border-white/10
 
-    translate-y-8
+    translate-y-3
     group-hover:translate-y-0
 
     transition-all
