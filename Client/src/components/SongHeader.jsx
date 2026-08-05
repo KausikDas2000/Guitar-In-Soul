@@ -5,12 +5,17 @@ import {
   FaPlay,
   FaMusic,
   FaCalendarAlt,
+  FaTrash,
 } from "react-icons/fa";
+
 import { useState } from "react";
-import { FaTrash } from "react-icons/fa";
-import { deleteSong } from "../services/songService";
 import { useNavigate } from "react-router-dom";
-import { incrementDownload } from "../services/songService";
+
+import {
+  deleteSong,
+  incrementDownload,
+} from "../services/songService";
+
 
 const SongHeader = ({
   song,
@@ -21,1206 +26,2647 @@ const SongHeader = ({
   handleFavorite,
 }) => {
 
-  const handleDownload = async () => {
-    try {
-      await incrementDownload(song._id);
 
-      const link = document.createElement("a");
-
-      link.href = song.notationPdf.url.replace(
-        "/upload/",
-        "/upload/fl_attachment/"
-      );
-
-      link.target = "_blank";
-      link.click();
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const [showPreview, setShowPreview] = useState(false);
 
 
-  const user = JSON.parse(localStorage.getItem("user"));
-
-
+  const user = JSON.parse(
+    localStorage.getItem("user")
+  );
 
 
   const navigate = useNavigate();
 
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm(
-      "Delete this arrangement?"
-    );
 
-    if (!confirmDelete) return;
-
-    try {
-      await deleteSong(song._id);
-
-      alert("Arrangement deleted");
-
-      navigate("/arrangements");
-    } catch (err) {
-      alert(err.response?.data?.message);
-    }
-  };
-
-
-
-
-  const [showPreview, setShowPreview] = useState(false);
 
   if (!song) {
+
     return (
       <div className="text-white p-10">
         Loading...
       </div>
     );
+
   }
 
 
+
+  const handleDownload = async () => {
+
+    try {
+
+      await incrementDownload(song._id);
+
+
+      const link = document.createElement("a");
+
+      link.href =
+        song.notationPdf.url.replace(
+          "/upload/",
+          "/upload/fl_attachment/"
+        );
+
+
+      link.target = "_blank";
+
+      link.click();
+
+
+    }
+    catch (err) {
+
+      console.log(err);
+
+    }
+
+  };
+
+
+
+
+  const handleDelete = async () => {
+
+
+    const confirmDelete =
+      window.confirm(
+        "Delete this arrangement?"
+      );
+
+
+    if (!confirmDelete)
+      return;
+
+
+
+    try {
+
+
+      await deleteSong(song._id);
+
+
+      alert(
+        "Arrangement deleted"
+      );
+
+
+      navigate("/arrangements");
+
+
+    }
+    catch (err) {
+
+      alert(
+        err.response?.data?.message
+      );
+
+    }
+
+
+  };
+
+
+
   return (
+
     <section
       className="
-    relative
-    overflow-hidden
-    rounded-[36px]
-    border
-    border-white/10
-    bg-gradient-to-br
-    from-[#0b1220]
-    via-[#101827]
-    to-black
-    shadow-[0_30px_90px_rgba(0,0,0,.55)]
-    text-white
-  "
+relative
+overflow-hidden
+rounded-[30px]
+border
+border-white/10
+bg-gradient-to-br
+from-[#0b1220]
+via-[#101827]
+to-black
+text-white
+shadow-[0_30px_90px_rgba(0,0,0,.55)]
+"
     >
+
 
       {/* Background Glow */}
 
-      <div className="absolute -top-40 -right-40 h-[420px] w-[420px] rounded-full bg-orange-500/20 blur-[130px]" />
+      <div
+        className="
+absolute
+-top-32
+-right-32
+h-72
+w-72
+rounded-full
+bg-orange-500/20
+blur-[120px]
+"
+      />
 
-      <div className="absolute bottom-0 left-0 h-[350px] w-[350px] rounded-full bg-sky-500/10 blur-[120px]" />
 
       <div
         className="
-      relative
-      grid
-      gap-14
-      p-10 
-      grid-cols-1
-      lg:grid-cols-[380px_minmax(0,1fr)]
-    "
+absolute
+bottom-0
+left-0
+h-72
+w-72
+rounded-full
+bg-sky-500/10
+blur-[120px]
+"
+      />
+
+
+
+      <div
+        className="
+relative
+grid
+grid-cols-1
+gap-10
+p-5
+
+sm:p-8
+
+lg:grid-cols-[380px_1fr]
+lg:gap-14
+lg:p-10
+"
       >
 
-        {/* ================= LEFT SIDE ================= */}
 
-        <div className="flex justify-center lg:justify-start">
 
-          <div className="relative group">
+        {/* ================= COVER ================= */}
 
-            {/* Glow */}
 
-            <div
-              className="
-            absolute
-            -inset-6
-            rounded-[40px]
-            bg-orange-500/20
-            blur-3xl
-            opacity-0
-            transition-all
-            duration-700
-            group-hover:opacity-100
-          "
-            />
+        <div
+          className="
+flex
+justify-center
+lg:justify-start
+"
+        >
+
+
+          <div
+            className="
+relative
+group
+"
+          >
+
 
             {/* Vinyl */}
 
             <div
               className="
-            absolute
-            top-1/2
-            right-[-55px]
-            -translate-y-1/2
+hidden
+sm:block
 
-            h-60
-            w-60
+absolute
+top-1/2
+right-[-50px]
 
-            rounded-full
+h-56
+w-56
 
-            bg-gradient-to-br
-            from-zinc-900
-            via-zinc-700
-            to-black
+-translate-y-1/2
 
-            border
-            border-zinc-600
+rounded-full
 
-            shadow-2xl
+bg-gradient-to-br
+from-zinc-800
+to-black
 
-            transition-all
-            duration-700
+border
+border-zinc-600
 
-            opacity-40
+opacity-40
 
-            group-hover:right-[-85px]
-            group-hover:rotate-[360deg]
-          "
-            >
+shadow-2xl
 
-              <div
-                className="
-              absolute
-              left-1/2
-              top-1/2
+transition-all
+duration-700
 
-              h-12
-              w-12
+group-hover:right-[-80px]
+group-hover:rotate-[360deg]
 
-              -translate-x-1/2
-              -translate-y-1/2
-
-              rounded-full
-
-              bg-orange-500
-
-              border-4
-              border-zinc-900
-            "
-              />
-
-            </div>
-
-            {/* Cover */}
-
-            <img
-              src={song.coverImage?.url}
-              alt={song.title}
-              className="
-            relative
-            z-10
-            w-full
-            max-w-[340px]
-            sm:max-w-[340px]
-            aspect-square
-            rounded-[32px]
-            object-cover
-            shadow-[0_25px_60px_rgba(0,0,0,.55)]
-            transition-all
-            duration-700
-            group-hover:scale-105
-          "
+"
             />
 
-            {/* Overlay */}
+
+            {/* Vinyl Center */}
 
             <div
               className="
-            absolute
-            inset-0
-            z-20
+hidden
+sm:block
 
-            rounded-[32px]
+absolute
+top-1/2
+right-[-50px]
 
-            bg-gradient-to-t
-            from-black/70
-            via-transparent
-            to-transparent
-          "
+h-12
+w-12
+
+-translate-y-1/2
+
+rounded-full
+
+bg-orange-500
+
+border-4
+border-black
+
+z-10
+"
             />
 
-            {/* Play */}
+
+
+            {/* Cover Image */}
+
+            <img
+
+              src={
+                song.coverImage?.url
+              }
+
+              alt={song.title}
+
+
+              className="
+relative
+z-20
+
+w-full max-w-[330px]
+
+sm:w-[330px]
+
+aspect-square
+
+rounded-[32px]
+
+object-cover
+
+shadow-[0_25px_60px_rgba(0,0,0,.55)]
+
+transition
+
+duration-500
+
+group-hover:scale-105
+
+"
+            />
+
+
+
+            {/* Image Overlay */}
+
+            <div
+              className="
+absolute
+inset-0
+z-30
+
+rounded-[32px]
+
+bg-gradient-to-t
+from-black/60
+via-transparent
+to-transparent
+
+"
+            />
+
+
+
+            {/* Play Button */}
+
 
             <button
+
               onClick={() => setShowPreview(true)}
+
               className="
-            absolute
-            left-1/2
-            top-1/2
-            z-30
+absolute
 
-            flex
-            h-20
-            w-20
-            whitespace-nowrap
-text-sm
-sm:text-lg
+left-1/2
+top-1/2
 
-            -translate-x-1/2
-            -translate-y-1/2
+z-40
 
-            items-center
-            justify-center
+flex
 
-            rounded-full
+h-16
+w-16
 
-            border
-            border-white/30
+sm:h-20
+sm:w-20
 
-            bg-white/20
+-translate-x-1/2
+-translate-y-1/2
 
-            backdrop-blur-xl
 
-            text-xl
-sm:text-2xl
-lg:text-3xl
+items-center
+justify-center
 
-            opacity-0
-            scale-75
 
-            transition-all
-            duration-500
+rounded-full
 
-            group-hover:opacity-100
-            group-hover:scale-100
-          "
+bg-white/20
+
+border
+border-white/30
+
+backdrop-blur-xl
+
+
+text-xl
+sm:text-3xl
+
+
+opacity-0
+
+scale-75
+
+
+transition-all
+duration-500
+
+
+group-hover:opacity-100
+
+group-hover:scale-100
+
+"
+
             >
+
+
               <FaPlay className="ml-1" />
+
+
             </button>
+
+
+
+
 
             {/* Badge */}
 
+
             <div
               className="
-            absolute
-            bottom-5
-            left-5
-            z-30
+absolute
 
-            flex
-            items-center
-            gap-2
+bottom-4
+left-4
 
-            rounded-full
+z-40
 
-            bg-black/50
 
-            backdrop-blur-xl
+flex
 
-            border
-            border-white/10
+items-center
 
-            px-4
-            py-2
+gap-2
 
-            text-sm
-            font-semibold
-          "
+
+rounded-full
+
+bg-black/60
+
+border
+border-white/10
+
+
+px-4
+py-2
+
+
+text-xs
+sm:text-sm
+
+font-semibold
+
+"
+
             >
-              <FaMusic className="text-orange-400" />
+
+              <FaMusic
+                className="text-orange-400"
+              />
+
+
               Guitar In Soul
+
+
             </div>
 
+
+
           </div>
+
 
         </div>
 
-        {/* ================= RIGHT SIDE ================= */}
 
-        <div className="flex flex-col justify-center">
 
-          <p className="uppercase tracking-[7px] text-orange-400 font-bold text-sm">
+
+
+        {/* ================= SONG INFO ================= */}
+
+
+
+        <div
+          className="
+flex
+flex-col
+justify-center
+
+min-w-0
+"
+        >
+
+
+
+          <p
+            className="
+uppercase
+
+tracking-[4px]
+
+sm:tracking-[7px]
+
+text-orange-400
+
+font-bold
+
+text-xs
+sm:text-sm
+"
+          >
+
             Guitar Arrangement
+
           </p>
 
+
+
           <h1
+
             className="
-          mt-3
+mt-3
 
-         text-xl
-sm:text-2xl
-lg:text-3xl
-          sm:text-4xl
-          lg:text-6xl
+text-3xl
 
-          font-black
+sm:text-5xl
 
-          leading-tight
-        "
+lg:text-6xl
+
+
+font-black
+
+leading-tight
+
+break-words
+
+"
+
           >
+
             {song.title}
+
+
           </h1>
 
-          <div className="mt-5 flex items-center gap-3">
+
+
+
+          {/* Artist */}
+
+
+          <div
+            className="
+mt-6
+
+flex
+
+items-center
+
+gap-3
+
+"
+
+          >
+
 
             <div
               className="
-            flex
-            h-12
-            w-12
+flex
 
-            items-center
-            justify-center
+h-12
+w-12
 
-            rounded-full
 
-            bg-orange-500/20
+items-center
+justify-center
 
-            text-orange-400
-          "
+
+rounded-full
+
+
+bg-orange-500/20
+
+
+text-orange-400
+
+"
+
             >
+
               <FaMusic />
+
             </div>
+
+
 
             <div>
 
-              <p className="text-sm uppercase tracking-widest text-gray-400">
+
+              <p
+                className="
+text-xs
+
+uppercase
+
+tracking-widest
+
+text-gray-400
+"
+              >
+
                 Artist
+
               </p>
 
-              <h3 className="text-xl
+
+              <h3
+                className="
+text-xl
+
 sm:text-2xl
+
 font-bold
-break-words">
+
+break-words
+"
+              >
+
                 {song.artist}
+
               </h3>
+
 
             </div>
 
+
           </div>
+
+
+
+
 
           {/* Badges */}
 
-          <div className="mt-8 flex flex-wrap gap-4">
+
+          <div
+            className="
+mt-8
+
+flex
+
+flex-wrap
+
+gap-3
+
+"
+
+          >
+
 
             <span
               className="
-            rounded-full
+rounded-full
 
-            border
-            border-orange-500/30
+border
 
-            bg-orange-500/15
+border-orange-500/30
 
-            px-5
-            py-2.5
+bg-orange-500/10
 
-            font-semibold
 
-            text-orange-300
-          "
+px-4
+py-2
+
+
+text-sm
+
+font-semibold
+
+text-orange-300
+
+"
+
             >
+
               🎸 {song.difficulty}
+
             </span>
+
+
 
             <span
               className="
-            rounded-full
+rounded-full
 
-            border
-            border-sky-500/30
+border
 
-            bg-sky-500/15
+border-sky-500/30
 
-            px-5
-            py-2.5
+bg-sky-500/10
 
-            font-semibold
 
-            text-sky-300
-          "
+px-4
+py-2
+
+
+text-sm
+
+font-semibold
+
+text-sky-300
+
+"
+
             >
+
               🎵 {song.genre}
+
             </span>
+
 
           </div>
 
-          <div className="my-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-          {/* Uploader */}
 
-          <div className="flex
+          <div
+            className="
+my-8
+
+h-px
+
+bg-gradient-to-r
+
+from-transparent
+
+via-white/20
+
+to-transparent
+
+"
+          />
+
+
+          <div
+            className="
+my-8
+h-px
+bg-gradient-to-r
+from-transparent
+via-white/20
+to-transparent
+"
+          />
+
+
+          {/* ================= UPLOADER ================= */}
+
+
+          <div
+            className="
+flex
+
 flex-col
-sm:flex-row
-items-start
-sm:items-center
-justify-between
-gap-6">
 
-            <div className="flex items-center gap-4">
+gap-5
+
+
+sm:flex-row
+
+sm:items-center
+
+sm:justify-between
+
+"
+
+          >
+
+
+
+            {/* User */}
+
+
+            <div
+              className="
+flex
+
+items-center
+
+gap-4
+
+min-w-0
+
+"
+
+            >
+
 
               <img
+
                 src={
                   song?.uploader?.profileImage?.url ||
+
                   `https://ui-avatars.com/api/?name=${encodeURIComponent(
                     song?.uploader?.name || "User"
                   )}&background=f97316&color=fff`
                 }
-                alt={song?.uploader?.name || "User"}
+
+
+                alt="Uploader"
+
+
                 className="
-              h-16
-              w-16
+h-14
+w-14
 
-              rounded-full
+sm:h-16
+sm:w-16
 
-              border-2
-              border-orange-400
 
-              object-cover
-            "
+rounded-full
+
+
+border-2
+
+border-orange-400
+
+
+object-cover
+
+shrink-0
+
+"
+
               />
 
-              <div>
 
-                <p className="text-sm text-gray-400">
+
+              <div className="min-w-0">
+
+
+                <p
+                  className="
+text-sm
+
+text-gray-400
+"
+                >
+
                   Uploaded by
+
                 </p>
 
-                <h3 className="text-xl font-bold">
-                  {song.uploader?.name || "Unknown"}
+
+
+                <h3
+
+                  className="
+text-lg
+
+sm:text-xl
+
+font-bold
+
+truncate
+
+"
+
+                >
+
+                  {
+                    song.uploader?.name || "Unknown"
+                  }
+
+
                 </h3>
 
-              </div>
-
-            </div>
-
-            <div
-              className="
-            rounded-2xl
-
-            border
-            border-white/10
-
-            bg-white/5
-
-            px-5
-            py-4
-          "
-            >
-
-              <div className="flex items-center gap-2">
-
-                <FaCalendarAlt className="text-orange-400" />
-
-                <span className="text-gray-300">
-                  {new Date(song.createdAt).toLocaleDateString()}
-                </span>
 
               </div>
 
+
             </div>
 
-          </div>
 
 
 
 
 
+            {/* Date */}
 
 
-          {/* ================= PREMIUM STATS ================= */}
-
-          <div className="mt-10
-grid
-grid-cols-1
-sm:grid-cols-2
-lg:grid-cols-3
-gap-5">
-
-            {/* Likes */}
             <div
-              onClick={handleLike}
+
               className="
-      group
-      cursor-pointer
+flex
 
-      rounded-3xl
+items-center
 
-      border
-      border-white/10
+gap-3
 
-      bg-white/5
 
-      backdrop-blur-xl
+rounded-2xl
 
-      p-6
 
-      transition-all
-      duration-300
+border
 
-      hover:-translate-y-2
-      hover:border-red-400/40
-      hover:bg-red-500/10
-    "
+border-white/10
+
+
+bg-white/5
+
+
+px-5
+
+py-4
+
+
+w-fit
+
+"
+
             >
 
-              <FaHeart
-                className={`
-        text-xl
-sm:text-2xl
-lg:text-3xl
 
-        transition-all
-        duration-300
-
-        ${liked
-                    ? "text-red-500 scale-125"
-                    : "text-red-300 group-hover:text-red-400"
-                  }
-      `}
+              <FaCalendarAlt
+                className="
+text-orange-400
+"
               />
 
-              <h2 className="mt-5 text-xl
-sm:text-2xl
-lg:text-3xl font-bold text-white">
-                {likeCount}
-              </h2>
 
-              <p className="mt-1 text-gray-400">
-                {liked ? "Liked" : "Likes"}
-              </p>
+              <span
+                className="
+text-sm
 
-            </div>
+sm:text-base
 
-            {/* Views */}
+text-gray-300
 
-            <div
-              className="
-      rounded-3xl
+"
 
-      border
-      border-white/10
+              >
 
-      bg-white/5
-
-      backdrop-blur-xl
-
-      p-6
-
-      transition-all
-      duration-300
-
-      hover:-translate-y-2
-      hover:border-sky-400/40
-      hover:bg-sky-500/10
-    "
-            >
-
-              <FaEye className="text-xl
-sm:text-2xl
-lg:text-3xl text-sky-400" />
-
-              <h2 className="mt-5 text-xl
-sm:text-2xl
-lg:text-3xl font-bold text-white">
-                {song.views}
-              </h2>
-
-              <p className="mt-1 text-gray-400">
-                Views
-              </p>
-
-            </div>
-
-            {/* Downloads */}
-
-            <div
-              className="
-      rounded-3xl
-
-      border
-      border-white/10
-
-      bg-white/5
-
-      backdrop-blur-xl
-
-      p-6
-
-      transition-all
-      duration-300
-
-      hover:-translate-y-2
-      hover:border-green-400/40
-      hover:bg-green-500/10
-    "
-            >
-
-              <FaDownload className="text-xl
-sm:text-2xl
-lg:text-3xl text-green-400" />
-
-              <h2 className="mt-5 text-xl
-sm:text-2xl
-lg:text-3xl font-bold text-white">
-                {song.downloads}
-              </h2>
-
-              <p className="mt-1 text-gray-400">
-                Downloads
-              </p>
-
-            </div>
-
-          </div>
-
-          {/* ================= ACTION BAR ================= */}
-
-          <div className="mt-10">
-
-            <div
-              className={`
-      grid
-      gap-5
-
-      ${(user?._id === song.uploader?._id || user?.role === "admin")
-                  ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
-                  : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
+                {
+                  new Date(
+                    song.createdAt
+                  )
+                    .toLocaleDateString()
                 }
-    `}
-            >
 
-              {/* Preview */}
 
-              <button
-                onClick={() => setShowPreview(true)}
-                className="
-        group
+              </span>
 
-        flex
-        items-center
-        justify-center
-        gap-3
-
-        rounded-2xl
-
-        h-20
-        px-6
-        whitespace-nowrap
-text-sm
-sm:text-lg
-
-        bg-gradient-to-r
-        from-orange-500
-        to-orange-600
-
-        text-white
-        font-semibold
-        text-lg
-
-        shadow-lg
-        shadow-orange-500/30
-
-        transition-all
-        duration-300
-
-        hover:-translate-y-2
-        hover:scale-[1.02]
-        hover:shadow-orange-500/50
-      "
-              >
-                <FaPlay
-                  className="
-          transition-transform
-          duration-300
-          group-hover:translate-x-1
-        "
-                />
-
-                Preview Arrangement
-
-              </button>
-
-              {/* Download */}
-
-              <button
-                onClick={handleDownload}
-                className="
-        group
-
-        flex
-        items-center
-        justify-center
-        gap-3
-
-        rounded-2xl
-
-        h-20
-        px-6
-        whitespace-nowrap
-text-sm
-sm:text-lg
-
-        bg-zinc-800
-
-        border
-        border-zinc-700
-
-        text-white
-        font-semibold
-        text-lg
-
-        transition-all
-        duration-300
-
-        hover:-translate-y-2
-        hover:bg-zinc-700
-        hover:border-orange-500
-      "
-              >
-
-                <FaDownload
-                  className="
-          transition-transform
-          duration-300
-          group-hover:-translate-y-1
-        "
-                />
-
-                Download PDF
-
-              </button>
-
-              {/* Delete */}
-
-              {(user?._id === song.uploader?._id ||
-                user?.role === "admin") && (
-
-                  <button
-                    onClick={handleDelete}
-                    className="
-          group
-
-          flex
-          items-center
-          justify-center
-          gap-3
-
-          rounded-2xl
-
-          h-20
-          px-6
-          whitespace-nowrap
-text-sm
-sm:text-lg
-
-          bg-red-500/10
-
-          border
-          border-red-500/30
-
-          text-red-300
-          font-semibold
-          text-lg
-
-          transition-all
-          duration-300
-
-          hover:-translate-y-2
-          hover:bg-red-500
-          hover:text-white
-          hover:border-red-500
-          hover:shadow-xl
-          hover:shadow-red-500/30
-        "
-                  >
-
-                    <FaTrash
-                      className="
-            transition-transform
-            duration-300
-            group-hover:rotate-12
-          "
-                    />
-
-                    Delete Arrangement
-
-                  </button>
-
-                )}
-              {/* Save */}
-
-              <button
-                onClick={handleFavorite}
-                className={`
-    group
-
-    flex
-    items-center
-    justify-center
-    gap-3
-
-    rounded-2xl
-
-    h-20
-    whitespace-nowrap
-text-sm
-sm:text-lg
-
-    font-semibold
-    text-lg
-
-    transition-all
-    duration-300
-
-    hover:-translate-y-2
-
-    ${favorite
-                    ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
-                    : "bg-zinc-800 border border-zinc-700 text-white hover:bg-zinc-700"
-                  }
-  `}
-              >
-                <FaHeart
-                  className={`
-      text-xl
-      transition-transform
-      duration-300
-      group-hover:scale-125
-
-      ${favorite
-                      ? "text-white"
-                      : "text-orange-400"
-                    }
-    `}
-                />
-
-                {favorite ? "Saved" : "Save"}
-
-              </button>
 
             </div>
+
+
 
           </div>
 
-          {/* PDF Preview Modal */}
 
-          {showPreview && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
 
-              <div className="relative h-[90vh] w-[92vw] overflow-hidden rounded-3xl bg-white shadow-2xl">
 
-                <button
-                  onClick={() => setShowPreview(false)}
-                  className="
-          absolute
-          right-5
-          top-5
-          z-20
 
-          rounded-full
 
-          bg-red-500
+          {/* ================= STATS ================= */}
 
-          px-4
-          py-2
 
-          font-bold
-          text-white
-
-          transition
-          hover:bg-red-600
-        "
-                >
-                  ✕
-                </button>
-
-                <iframe
-                  src={song.notationPdf?.url}
-                  title="PDF Preview"
-                  className="h-full w-full"
-                />
-
-              </div>
-
-            </div>
-          )}
-
-          {/* ================= CREATOR CARD ================= */}
 
           <div
+
             className="
-    mt-12
+mt-10
 
-    rounded-[32px]
 
-    border
-    border-white/10
+grid
 
-    bg-white/5
 
-    backdrop-blur-2xl
+grid-cols-1
 
-    p-8
 
-    transition-all
-    duration-300
+sm:grid-cols-2
 
-    hover:border-orange-500/40
-    hover:bg-white/10
-  "
+
+lg:grid-cols-3
+
+
+gap-5
+
+"
+
           >
 
-            <p className="mb-6 text-sm font-bold uppercase tracking-[5px] text-orange-400">
-              Arrangement Creator
-            </p>
 
-            <div className="flex flex-col gap-8 xl:flex-row lg:items-center lg:justify-between">
 
-              {/* Left Side */}
+            {/* LIKE */}
 
-              <div className="flex items-center gap-5">
-
-                <div className="relative">
-
-                  <img
-                    src={
-                      song?.uploader?.profileImage?.url ||
-                      `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                        song?.uploader?.name || "User"
-                      )}&background=f97316&color=fff`
-                    }
-                    alt={song?.uploader?.name || "User"}
-                    className="
-            h-24
-            w-24
-
-            rounded-full
-
-            border-4
-            border-orange-500
-
-            object-cover
-
-            shadow-2xl
-          "
-                  />
-
-                  {/* Online Dot */}
-
-                  <span
-                    className="
-            absolute
-            bottom-2
-            right-2
-
-            h-5
-            w-5
-
-            rounded-full
-
-            border-2
-            border-[#111827]
-
-            bg-green-500
-          "
-                  />
-
-                </div>
-
-                <div>
-
-                  <div className="flex items-center gap-3">
-
-                    <h2 className="text-xl
-sm:text-2xl
-lg:text-xl
-sm:text-2xl
-lg:text-3xl font-bold">
-                      {song.uploader?.name || "Unknown"}
-                    </h2>
-
-                    <span
-                      className="
-              rounded-full
-
-              bg-sky-500/20
-
-              px-3
-              py-1
-
-              text-xs
-              font-bold
-
-              text-sky-300
-            "
-                    >
-                      VERIFIED
-                    </span>
-
-                  </div>
-
-                  <p className="mt-2 text-gray-400">
-                    Passionate Guitar Arrangement Creator
-                  </p>
-
-                </div>
-
-              </div>
-
-              {/* Right Side */}
-
-              <div className="grid grid-cols-2 gap-4">
-
-                <div
-                  className="
-          rounded-2xl
-
-          bg-black/30
-
-          px-8
-          h-20
-          whitespace-nowrap
-text-sm
-sm:text-lg
-
-          text-center
-        "
-                >
-
-                  <p className="text-sm text-gray-400">
-                    Uploaded
-                  </p>
-
-                  <h3 className="mt-2 text-lg font-bold">
-                    {new Date(song.createdAt).toLocaleDateString()}
-                  </h3>
-
-                </div>
-
-                <div
-                  className="
-          rounded-2xl
-
-          bg-black/30
-
-          px-8
-          h-20
-          whitespace-nowrap
-text-sm
-sm:text-lg
-
-          text-center
-        "
-                >
-
-                  <p className="text-sm text-gray-400">
-                    Genre
-                  </p>
-
-                  <h3 className="mt-2 text-lg font-bold">
-                    {song.genre}
-                  </h3>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          {/* ================= ABOUT ARRANGEMENT ================= */}
-
-          <div
-            className="
-    mt-12
-
-    overflow-hidden
-
-    rounded-[32px]
-
-    border
-    border-white/10
-
-    bg-white/5
-
-    backdrop-blur-2xl
-  "
-          >
-
-            {/* Header */}
 
             <div
+
+              onClick={handleLike}
+
+
               className="
-      flex
-      items-center
-      gap-5
+group
 
-      border-b
-      border-white/10
+cursor-pointer
 
-      px-8
-      py-7
-    "
+
+rounded-3xl
+
+
+border
+
+border-white/10
+
+
+bg-white/5
+
+
+backdrop-blur-xl
+
+
+p-5
+
+
+sm:p-6
+
+
+transition
+
+
+hover:-translate-y-2
+
+
+hover:border-red-400/40
+
+
+hover:bg-red-500/10
+
+"
+
             >
 
-              <div
+
+              <FaHeart
+
+                className={`
+text-2xl
+
+sm:text-3xl
+
+
+transition
+
+
+${liked
+
+                    ?
+
+                    "text-red-500 scale-125"
+
+                    :
+
+                    "text-red-300"
+
+                  }
+
+`}
+
+              />
+
+
+
+              <h2
+
                 className="
-        flex
+mt-4
 
-        h-16
-        w-16
 
-        items-center
-        justify-center
+text-2xl
 
-        rounded-2xl
 
-        bg-gradient-to-br
-        from-orange-500
-        to-orange-600
+sm:text-3xl
 
-        text-xl
-sm:text-2xl
-lg:text-3xl
 
-        shadow-xl
-        shadow-orange-500/30
-      "
+font-bold
+
+"
+
               >
-                📖
-              </div>
 
-              <div>
+                {likeCount}
 
-                <p className="text-sm uppercase tracking-[6px] text-gray-400">
-                  Description
-                </p>
+              </h2>
 
-                <h2 className="text-xl
-sm:text-2xl
-lg:text-3xl font-bold text-white">
-                  About this Arrangement
-                </h2>
-
-              </div>
-
-            </div>
-
-            {/* Body */}
-
-            <div className="p-8">
 
               <p
                 className="
-        whitespace-pre-line
+text-gray-400
 
-        text-lg
+mt-1
 
-        leading-10
+"
 
-        text-gray-300
-      "
               >
-                {song.description ||
-                  "No description has been added for this arrangement yet."}
+
+                {
+                  liked
+                    ?
+                    "Liked"
+                    :
+                    "Likes"
+                }
+
+
               </p>
 
+
             </div>
+
+
+
+
+
+            {/* VIEWS */}
+
+
+
+            <div
+
+              className="
+rounded-3xl
+
+
+border
+
+border-white/10
+
+
+bg-white/5
+
+
+backdrop-blur-xl
+
+
+p-5
+
+
+sm:p-6
+
+
+transition
+
+
+hover:-translate-y-2
+
+
+hover:border-sky-400/40
+
+
+hover:bg-sky-500/10
+
+"
+
+            >
+
+
+              <FaEye
+
+                className="
+text-2xl
+
+sm:text-3xl
+
+text-sky-400
+
+"
+
+              />
+
+
+
+              <h2
+
+                className="
+mt-4
+
+text-2xl
+
+sm:text-3xl
+
+font-bold
+
+"
+
+              >
+
+                {song.views}
+
+              </h2>
+
+
+
+              <p
+                className="
+text-gray-400
+
+mt-1
+
+"
+
+              >
+
+                Views
+
+              </p>
+
+
+            </div>
+
+
+
+
+
+
+
+            {/* DOWNLOAD */}
+
+
+
+            <div
+
+              className="
+rounded-3xl
+
+
+border
+
+border-white/10
+
+
+bg-white/5
+
+
+backdrop-blur-xl
+
+
+p-5
+
+
+sm:p-6
+
+
+transition
+
+
+hover:-translate-y-2
+
+
+hover:border-green-400/40
+
+
+hover:bg-green-500/10
+
+"
+
+            >
+
+
+              <FaDownload
+
+                className="
+text-2xl
+
+sm:text-3xl
+
+text-green-400
+
+"
+
+              />
+
+
+              <h2
+
+                className="
+mt-4
+
+text-2xl
+
+sm:text-3xl
+
+font-bold
+
+"
+
+              >
+
+                {song.downloads}
+
+
+              </h2>
+
+
+
+              <p
+                className="
+text-gray-400
+
+mt-1
+
+"
+
+              >
+
+                Downloads
+
+              </p>
+
+
+
+            </div>
+
+
+
+          </div>
+          {/* ================= ACTION BAR ================= */}
+
+
+          <div className="mt-10">
+
+
+            <div
+              className={`
+grid
+
+grid-cols-1
+
+sm:grid-cols-2
+
+
+gap-5
+
+
+${(user?._id === song.uploader?._id ||
+                  user?.role === "admin")
+
+                  ?
+
+                  "xl:grid-cols-4"
+
+                  :
+
+                  "xl:grid-cols-3"
+
+                }
+
+`}
+            >
+
+
+
+              {/* ================= PREVIEW ================= */}
+
+
+
+              <button
+
+                onClick={() => setShowPreview(true)}
+
+                className="
+group
+
+
+flex
+
+min-h-[80px]
+
+
+items-center
+
+justify-center
+
+
+gap-3
+
+
+rounded-2xl
+
+
+px-5
+
+
+py-4
+
+
+
+bg-gradient-to-r
+
+from-orange-500
+
+to-orange-600
+
+
+
+text-white
+
+
+font-semibold
+
+
+text-sm
+
+sm:text-base
+
+
+shadow-lg
+
+shadow-orange-500/30
+
+
+
+transition-all
+
+
+hover:-translate-y-2
+
+
+hover:shadow-orange-500/50
+
+
+"
+
+              >
+
+
+                <FaPlay
+
+                  className="
+text-lg
+
+transition-transform
+
+group-hover:translate-x-1
+
+"
+
+                />
+
+
+
+                <span
+                  className="
+text-center
+"
+                >
+
+                  Preview Arrangement
+
+                </span>
+
+
+              </button>
+
+
+
+
+
+
+
+              {/* ================= DOWNLOAD ================= */}
+
+
+
+              <button
+
+
+                onClick={handleDownload}
+
+
+                className="
+group
+
+
+flex
+
+min-h-[80px]
+
+
+items-center
+
+justify-center
+
+
+gap-3
+
+
+rounded-2xl
+
+
+px-5
+
+
+py-4
+
+
+
+bg-zinc-800
+
+
+
+border
+
+border-zinc-700
+
+
+
+text-white
+
+
+font-semibold
+
+
+text-sm
+
+sm:text-base
+
+
+
+transition-all
+
+
+
+hover:-translate-y-2
+
+
+hover:border-orange-500
+
+
+hover:bg-zinc-700
+
+
+"
+
+              >
+
+
+
+                <FaDownload
+
+                  className="
+text-lg
+
+transition-transform
+
+group-hover:-translate-y-1
+
+"
+
+                />
+
+
+
+                <span
+                  className="text-center"
+                >
+
+                  Download PDF
+
+                </span>
+
+
+
+              </button>
+
+
+
+
+
+
+
+
+              {/* ================= DELETE ================= */}
+
+
+
+              {
+
+                (user?._id === song.uploader?._id ||
+                  user?.role === "admin")
+
+                &&
+
+
+                (
+
+                  <button
+
+
+                    onClick={handleDelete}
+
+
+                    className="
+group
+
+
+flex
+
+min-h-[80px]
+
+
+items-center
+
+justify-center
+
+
+gap-3
+
+
+rounded-2xl
+
+
+px-5
+
+
+py-4
+
+
+
+bg-red-500/10
+
+
+
+border
+
+border-red-500/30
+
+
+
+text-red-300
+
+
+font-semibold
+
+
+text-sm
+
+sm:text-base
+
+
+
+transition-all
+
+
+
+hover:-translate-y-2
+
+
+hover:bg-red-500
+
+
+hover:text-white
+
+
+
+"
+
+                  >
+
+
+                    <FaTrash
+
+                      className="
+text-lg
+
+transition-transform
+
+group-hover:rotate-12
+
+"
+
+                    />
+
+
+
+                    <span
+                      className="text-center"
+                    >
+
+                      Delete Arrangement
+
+                    </span>
+
+
+                  </button>
+
+                )
+
+              }
+
+
+
+
+
+              {/* ================= SAVE ================= */}
+
+
+
+              <button
+
+
+                onClick={handleFavorite}
+
+
+                className={`
+group
+
+
+flex
+
+min-h-[80px]
+
+
+items-center
+
+justify-center
+
+
+gap-3
+
+
+rounded-2xl
+
+
+px-5
+
+
+py-4
+
+
+font-semibold
+
+
+text-sm
+
+sm:text-base
+
+
+
+transition-all
+
+
+
+hover:-translate-y-2
+
+
+
+${favorite
+
+                    ?
+
+
+                    "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
+
+
+                    :
+
+
+                    "bg-zinc-800 border border-zinc-700 text-white hover:bg-zinc-700"
+
+                  }
+
+
+`}
+
+
+              >
+
+
+                <FaHeart
+
+                  className={`
+
+text-lg
+
+
+transition-transform
+
+
+group-hover:scale-125
+
+
+
+${favorite
+
+                      ?
+
+                      "text-white"
+
+                      :
+
+                      "text-orange-400"
+
+                    }
+
+`}
+
+                />
+
+
+
+                <span>
+
+                  {
+                    favorite
+                      ?
+                      "Saved"
+                      :
+                      "Save"
+                  }
+
+                </span>
+
+
+
+              </button>
+
+
+
+            </div>
+
+
+          </div>
+          {/* ================= PDF PREVIEW ================= */}
+
+
+          {
+            showPreview && (
+
+              <div
+                className="
+fixed
+inset-0
+
+z-50
+
+flex
+
+items-center
+
+justify-center
+
+
+bg-black/80
+
+backdrop-blur-sm
+
+
+p-4
+
+"
+              >
+
+
+                <div
+                  className="
+relative
+
+h-[90vh]
+
+w-full
+
+
+max-w-6xl
+
+
+overflow-hidden
+
+
+rounded-3xl
+
+
+bg-white
+
+
+shadow-2xl
+
+"
+                >
+
+
+                  <button
+
+
+                    onClick={() => setShowPreview(false)}
+
+
+                    className="
+absolute
+
+right-4
+
+top-4
+
+
+z-20
+
+
+rounded-full
+
+
+bg-red-500
+
+
+px-4
+
+py-2
+
+
+font-bold
+
+
+text-white
+
+
+hover:bg-red-600
+
+"
+
+                  >
+
+                    ✕
+
+                  </button>
+
+
+
+                  <iframe
+
+                    src={song.notationPdf?.url}
+
+                    title="PDF Preview"
+
+
+                    className="
+h-full
+
+w-full
+
+"
+
+                  />
+
+
+
+                </div>
+
+
+
+              </div>
+
+            )
+
+          }
+
+
+
+
+
+          {/* ================= CREATOR CARD ================= */}
+
+
+
+          <div
+
+            className="
+mt-12
+
+
+rounded-[32px]
+
+
+border
+
+border-white/10
+
+
+bg-white/5
+
+
+backdrop-blur-2xl
+
+
+
+p-5
+
+
+sm:p-8
+
+
+"
+
+          >
+
+
+
+            <p
+
+              className="
+mb-6
+
+
+text-xs
+
+
+sm:text-sm
+
+
+font-bold
+
+
+uppercase
+
+
+tracking-[4px]
+
+
+text-orange-400
+
+"
+
+            >
+
+              Arrangement Creator
+
+            </p>
+
+
+
+
+
+            <div
+
+              className="
+flex
+
+
+flex-col
+
+
+gap-8
+
+
+
+xl:flex-row
+
+
+xl:items-center
+
+
+xl:justify-between
+
+"
+
+            >
+
+
+
+              {/* PROFILE */}
+
+
+
+              <div
+
+                className="
+flex
+
+
+items-center
+
+
+gap-4
+
+
+min-w-0
+
+"
+
+              >
+
+
+
+                <img
+
+
+                  src={
+
+                    song?.uploader?.profileImage?.url
+
+                    ||
+
+                    `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                      song?.uploader?.name || "User"
+                    )}&background=f97316&color=fff`
+
+                  }
+
+
+
+                  alt="Creator"
+
+
+                  className="
+h-20
+
+w-20
+
+
+sm:h-24
+
+sm:w-24
+
+
+
+rounded-full
+
+
+border-4
+
+
+border-orange-500
+
+
+object-cover
+
+
+shrink-0
+
+"
+
+                />
+
+
+
+
+                <div className="min-w-0">
+
+
+                  <div
+
+                    className="
+flex
+
+
+flex-wrap
+
+
+items-center
+
+
+gap-2
+
+"
+
+                  >
+
+
+
+                    <h2
+
+                      className="
+text-xl
+
+sm:text-2xl
+
+
+lg:text-3xl
+
+
+font-bold
+
+
+truncate
+
+"
+
+                    >
+
+                      {
+                        song.uploader?.name || "Unknown"
+                      }
+
+                    </h2>
+
+
+
+
+                    <span
+
+                      className="
+rounded-full
+
+
+bg-sky-500/20
+
+
+px-3
+
+
+py-1
+
+
+text-xs
+
+
+font-bold
+
+
+text-sky-300
+
+"
+
+                    >
+
+                      VERIFIED
+
+                    </span>
+
+
+
+                  </div>
+
+
+
+
+                  <p
+
+                    className="
+mt-2
+
+
+text-sm
+
+
+text-gray-400
+
+"
+
+                  >
+
+                    Passionate Guitar Arrangement Creator
+
+                  </p>
+
+
+
+                </div>
+
+
+
+              </div>
+
+
+
+
+
+
+
+              {/* INFO BOXES */}
+
+
+
+              <div
+
+                className="
+grid
+
+
+grid-cols-1
+
+
+sm:grid-cols-2
+
+
+gap-4
+
+
+"
+
+              >
+
+
+
+                <div
+
+                  className="
+rounded-2xl
+
+
+bg-black/30
+
+
+px-6
+
+
+py-4
+
+
+text-center
+
+"
+
+                >
+
+
+                  <p className="text-sm text-gray-400">
+
+                    Uploaded
+
+                  </p>
+
+
+
+                  <h3
+
+                    className="
+mt-2
+
+
+font-bold
+
+"
+
+                  >
+
+                    {
+                      new Date(
+                        song.createdAt
+                      )
+                        .toLocaleDateString()
+                    }
+
+                  </h3>
+
+
+                </div>
+
+
+
+
+
+                <div
+
+                  className="
+rounded-2xl
+
+
+bg-black/30
+
+
+px-6
+
+
+py-4
+
+
+text-center
+
+"
+
+                >
+
+
+                  <p className="text-sm text-gray-400">
+
+                    Genre
+
+                  </p>
+
+
+
+                  <h3
+
+                    className="
+mt-2
+
+
+font-bold
+
+"
+
+                  >
+
+                    {song.genre}
+
+                  </h3>
+
+
+
+                </div>
+
+
+
+              </div>
+
+
+
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          {/* ================= DESCRIPTION ================= */}
+
+
+
+          <div
+
+            className="
+mt-12
+
+
+overflow-hidden
+
+
+rounded-[32px]
+
+
+border
+
+
+border-white/10
+
+
+
+bg-white/5
+
+
+backdrop-blur-2xl
+
+"
+
+          >
+
+
+
+            {/* HEADER */}
+
+
+
+            <div
+
+              className="
+flex
+
+
+items-center
+
+
+gap-4
+
+
+border-b
+
+
+border-white/10
+
+
+p-5
+
+
+sm:p-8
+
+"
+
+            >
+
+
+
+              <div
+
+                className="
+flex
+
+
+h-14
+
+w-14
+
+
+sm:h-16
+
+sm:w-16
+
+
+
+items-center
+
+
+justify-center
+
+
+
+rounded-2xl
+
+
+bg-gradient-to-br
+
+
+from-orange-500
+
+
+to-orange-600
+
+
+
+text-2xl
+
+
+shadow-xl
+
+
+shadow-orange-500/30
+
+"
+
+              >
+
+                📖
+
+              </div>
+
+
+
+
+
+              <div>
+
+
+                <p
+
+                  className="
+text-xs
+
+
+uppercase
+
+
+tracking-[4px]
+
+
+text-gray-400
+
+"
+
+                >
+
+                  Description
+
+                </p>
+
+
+
+                <h2
+
+                  className="
+text-xl
+
+
+sm:text-3xl
+
+
+font-bold
+
+"
+
+                >
+
+                  About this Arrangement
+
+                </h2>
+
+
+              </div>
+
+
+
+            </div>
+
+
+
+
+
+
+            {/* BODY */}
+
+
+
+            <div
+
+              className="
+p-5
+
+
+sm:p-8
+
+"
+
+            >
+
+
+
+              <p
+
+                className="
+whitespace-pre-line
+
+
+text-base
+
+
+sm:text-lg
+
+
+leading-8
+
+
+sm:leading-10
+
+
+text-gray-300
+
+"
+
+              >
+
+                {
+
+                  song.description ||
+
+                  "No description has been added for this arrangement yet."
+
+                }
+
+
+              </p>
+
+
+            </div>
+
 
           </div>
 
         </div>
-
       </div>
 
+
+
+
+
     </section>
+
   );
 
 };
-
-
 export default SongHeader;
