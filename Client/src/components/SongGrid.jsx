@@ -28,11 +28,7 @@ const SongGrid = ({ songs = [] }) => {
   return (
     <div
       className="
-        grid
-        gap-8
-        sm:grid-cols-2
-        xl:grid-cols-3
-        2xl:grid-cols-4
+       grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8
       "
     >
       {songs.map((song) => (

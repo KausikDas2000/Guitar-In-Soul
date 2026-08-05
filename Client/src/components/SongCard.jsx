@@ -3,148 +3,368 @@ import {
   FaHeart,
   FaMusic,
   FaFilePdf,
-  FaUserCircle,
   FaEye,
   FaCalendarAlt,
+  FaPlay,
+  FaCompactDisc,
+  FaCheckCircle,
 } from "react-icons/fa";
 
 const SongCard = ({ song }) => {
+  const difficultyColor = {
+    Beginner: "bg-green-500/90",
+    Intermediate: "bg-yellow-500/90",
+    Advanced: "bg-red-500/90",
+  };
+
   return (
     <div
       className="
-      group
-      bg-white
-      rounded-3xl
+     group
+    relative
+    w-full
+    max-w-[460px]
+    h-[680px]
+      rounded-[28px]
       overflow-hidden
-      border
-      border-gray-100
-      shadow-md
-      hover:shadow-2xl
-      hover:-translate-y-2
+      cursor-pointer
+
+      bg-zinc-900
+      border border-white/10
+
+      shadow-xl
+
       transition-all
-      duration-300
+      duration-700
+      hover:-translate-y-3
+      hover:shadow-orange-500/30
+      hover:shadow-2xl
       "
     >
-      {/* Cover */}
 
-      <div className="relative overflow-hidden">
+      {/* Cover Image */}
+      <div className="relative h-full w-full overflow-hidden">
 
+        {/* Cover */}
         <img
           src={
             song.coverImage?.url ||
-            "https://placehold.co/600x400?text=No+Cover"
+            "https://placehold.co/600x800?text=No+Cover"
           }
           alt={song.title}
-          className="h-64 w-full object-cover group-hover:scale-110 transition duration-500"
+          className="
+      absolute
+      inset-0
+      w-full
+      h-full
+      object-cover
+      transition-transform
+      duration-700
+      group-hover:scale-110
+    "
         />
 
-        {/* Gradient */}
+        {/* Dark Overlay */}
+        <div
+          className="
+      absolute
+      inset-0
+      bg-gradient-to-t
+      from-black
+      via-black/30
+      to-black/10
+    "
+        />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+        {/* Orange Glow */}
+        <div
+          className="
+      absolute
+      inset-0
+      opacity-0
+      group-hover:opacity-100
+      transition
+      duration-700
+      bg-gradient-to-br
+      from-orange-500/20
+      via-transparent
+      to-transparent
+    "
+        />
+
+        {/* Floating Like Button */}
+        <button
+          className="
+      absolute
+      top-5
+      right-5
+
+      h-11
+      w-11
+
+      rounded-full
+
+      backdrop-blur-xl
+
+      bg-white/10
+
+      border
+
+      border-white/20
+
+      flex
+
+      items-center
+
+      justify-center
+
+      text-white
+
+      hover:bg-red-500
+
+      transition-all
+      duration-300
+    "
+        >
+          <FaHeart />
+        </button>
 
         {/* Genre */}
+        <span
+          className="
+      absolute
+      top-5
+      left-5
 
-        <div className="absolute top-4 left-4">
+      px-4
+      py-1.5
 
-          <span className="backdrop-blur-md bg-white/20 border border-white/30 text-white px-4 py-1 rounded-full text-xs font-semibold">
+      rounded-full
 
-            {song.genre || "Music"}
+      text-xs
 
-          </span>
+      font-semibold
 
-        </div>
+      text-white
+
+      backdrop-blur-xl
+
+      bg-white/15
+
+      border
+
+      border-white/20
+    "
+        >
+          🎸 {song.genre || "Music"}
+        </span>
 
         {/* Difficulty */}
+        <span
+          className={`
+      absolute
+      top-20
+      left-5
 
-        <div className="absolute top-4 right-4">
+      px-4
+      py-1.5
 
-          <span className="bg-orange-500 text-white px-4 py-1 rounded-full text-xs font-semibold shadow">
+      rounded-full
 
-            {song.difficulty}
+      text-xs
 
-          </span>
+      font-semibold
 
-        </div>
+      text-white
 
-        {/* Title */}
+      ${difficultyColor[song.difficulty] ||
+            "bg-orange-500/90"
+            }
+    `}
+        >
+          {song.difficulty}
+        </span>
 
-        <div className="absolute bottom-4 left-4 right-4">
+        {/* Center Play Button */}
+        <Link
+          to={`/song/${song._id}`}
+          className="
+      absolute
 
-          <h2 className="text-2xl font-bold text-white line-clamp-1">
+      inset-0
 
-            {song.title}
+      flex
 
-          </h2>
+      items-center
 
-          <p className="text-gray-200 line-clamp-1">
+      justify-center
+    "
+        >
+          <div
+            className="
+        h-20
+        w-20
 
-            {song.artist}
+        rounded-full
 
-          </p>
+        backdrop-blur-xl
 
-        </div>
+        bg-white/20
+
+        border
+
+        border-white/30
+
+        flex
+
+        items-center
+
+        justify-center
+
+        text-white
+
+        text-3xl
+
+        scale-75
+
+        opacity-0
+
+        group-hover:opacity-100
+
+        group-hover:scale-100
+
+        transition-all
+
+        duration-500
+      "
+          >
+            <FaPlay className="ml-1" />
+          </div>
+        </Link>
 
       </div>
+      {/* Bottom Glass Panel */}
+      <div
+        className="
+    absolute
+    bottom-0
+    left-0
+    right-0
 
-      {/* Body */}
+    p-5
 
-      <div className="p-6">
+    backdrop-blur-2xl
+    bg-black/45
 
-        {/* Stats */}
+    border-t
+    border-white/10
 
-        <div className="grid grid-cols-3 gap-3 mb-6">
+    translate-y-8
+    group-hover:translate-y-0
 
-          <div className="bg-red-50 rounded-2xl p-3 text-center">
+    transition-all
+    duration-500
+  "
+      >
 
-            <FaHeart className="mx-auto text-red-500 mb-2" />
+        {/* Song Title */}
+        <div className="mb-1 flex items-center justify-between">
 
-            <p className="font-bold">
+          <h2
+            className="
+        text-2xl
+        font-bold
+        text-white
+        line-clamp-1
+      "
+          >
+            {song.title}
+          </h2>
+
+          <FaCompactDisc
+            className="
+        text-orange-400
+        text-xl
+
+        group-hover:rotate-[360deg]
+
+        transition-transform
+
+        duration-1000
+      "
+          />
+
+        </div>
+
+        {/* Artist */}
+        <p
+          className="
+      text-gray-300
+      text-sm
+      mb-4
+      line-clamp-1
+    "
+        >
+          {song.artist}
+        </p>
+
+        {/* Likes + Views */}
+        <div className="flex items-center gap-5 mb-5">
+
+          <div className="flex items-center gap-2 text-red-400">
+
+            <FaHeart />
+
+            <span className="text-sm font-medium">
+
               {song.likes?.length || 0}
-            </p>
 
-            <span className="text-xs text-gray-500">
-              Likes
             </span>
 
           </div>
 
-          <div className="bg-blue-50 rounded-2xl p-3 text-center">
+          <div className="flex items-center gap-2 text-sky-400">
 
-            <FaEye className="mx-auto text-blue-500 mb-2" />
+            <FaEye />
 
-            <p className="font-bold">
+            <span className="text-sm font-medium">
+
               {song.views || 0}
-            </p>
 
-            <span className="text-xs text-gray-500">
-              Views
             </span>
 
           </div>
 
-          <div className="bg-orange-50 rounded-2xl p-3 text-center">
+          <div
+            className="
+        ml-auto
 
-            <FaFilePdf className="mx-auto text-orange-500 mb-2" />
+        px-3
 
-            <p className="font-bold">
+        py-1
 
-              PDF
+        rounded-full
 
-            </p>
+        bg-orange-500/20
 
-            <span className="text-xs text-gray-500">
+        border
 
-              Included
+        border-orange-500/40
 
-            </span>
+        text-orange-300
 
+        text-xs
+
+        font-semibold
+      "
+          >
+            PDF Included
           </div>
 
         </div>
 
         {/* Uploader */}
-
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center justify-between">
 
           <div className="flex items-center gap-3">
 
@@ -156,18 +376,38 @@ const SongCard = ({ song }) => {
                 )}&background=f97316&color=fff`
               }
               alt={song?.uploader?.name || "User"}
-              className="w-10 h-10 rounded-full object-cover"
+              className="
+          w-12
+          h-12
+          rounded-full
+          object-cover
+
+          border-2
+
+          border-orange-400
+        "
             />
 
             <div>
 
-              <p className="font-semibold">
+              <div className="flex items-center gap-1">
 
-                {song.uploader?.name || "Unknown"}
+                <p className="text-white font-semibold">
 
-              </p>
+                  {song.uploader?.name || "Unknown"}
 
-              <p className="text-xs text-gray-500">
+                </p>
+
+                <FaCheckCircle
+                  className="
+              text-sky-400
+              text-xs
+            "
+                />
+
+              </div>
+
+              <p className="text-xs text-gray-400">
 
                 Uploaded by
 
@@ -179,90 +419,163 @@ const SongCard = ({ song }) => {
 
           <div className="text-right">
 
-            <FaCalendarAlt className="inline text-gray-400 mr-1" />
+            <div className="flex items-center gap-1 text-gray-300">
 
-            <span className="text-xs text-gray-500">
+              <FaCalendarAlt />
 
-              {new Date(song.createdAt).toLocaleDateString()}
+              <span className="text-xs">
 
-            </span>
+                {new Date(song.createdAt).toLocaleDateString()}
+
+              </span>
+
+            </div>
 
           </div>
 
         </div>
 
-        {/* Buttons */}
+      </div>
+      {/* Divider */}
+      <div className="my-5 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-        <div className="grid grid-cols-2 gap-3">
+      {/* Action Buttons */}
+      <div className="grid grid-cols-2 gap-3">
 
-          <Link
-            to={`/song/${song._id}`}
-            className="
-            flex
-            justify-center
-            items-center
-            gap-2
-            rounded-xl
-            bg-gradient-to-r
-            from-orange-500
-            to-orange-600
-            py-3
-            font-semibold
-            text-white
-            hover:shadow-lg
-            hover:scale-105
-            transition-all
-            "
-          >
-            <FaMusic />
-            Listen
-          </Link>
-
-          <a
-            href={song.notationPdf?.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-            flex
-            justify-center
-            items-center
-            gap-2
-            rounded-xl
-            bg-red-500
-            py-3
-            font-semibold
-            text-white
-            hover:bg-red-600
-            transition
-            "
-          >
-            <FaFilePdf />
-            PDF
-          </a>
-
-        </div>
-
+        {/* Listen */}
         <Link
           to={`/song/${song._id}`}
           className="
-          mt-4
-          block
-          rounded-xl
-          border-2
-          border-orange-500
-          py-3
-          text-center
-          font-semibold
-          text-orange-500
-          hover:bg-orange-500
-          hover:text-white
-          transition-all
-          "
+      group/listen
+      flex
+      items-center
+      justify-center
+      gap-2
+
+      rounded-2xl
+
+      py-3
+
+      font-semibold
+
+      text-white
+
+      bg-gradient-to-r
+      from-orange-500
+      to-orange-600
+
+      transition-all
+      duration-300
+
+      hover:scale-105
+      hover:shadow-lg
+      hover:shadow-orange-500/40
+    "
         >
-          View Arrangement →
+          <FaPlay
+            className="
+        transition-transform
+        duration-300
+        group-hover/listen:translate-x-1
+      "
+          />
+
+          Listen
         </Link>
 
+        {/* PDF */}
+        <a
+          href={song.notationPdf?.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="
+      group/pdf
+
+      flex
+      items-center
+      justify-center
+      gap-2
+
+      rounded-2xl
+
+      py-3
+
+      font-semibold
+
+      text-white
+
+      bg-white/10
+
+      backdrop-blur-xl
+
+      border
+      border-white/20
+
+      transition-all
+      duration-300
+
+      hover:bg-red-500
+      hover:border-red-500
+      hover:scale-105
+    "
+        >
+          <FaFilePdf
+            className="
+        transition-transform
+        duration-300
+        group-hover/pdf:rotate-12
+      "
+          />
+
+          PDF
+        </a>
+
       </div>
+
+      {/* View Arrangement */}
+      <Link
+        to={`/song/${song._id}`}
+        className="
+    mt-4
+
+    flex
+
+    items-center
+
+    justify-center
+
+    gap-2
+
+    rounded-2xl
+
+    py-3
+
+    font-semibold
+
+    text-orange-300
+
+    border
+
+    border-orange-500/40
+
+    bg-orange-500/10
+
+    transition-all
+    duration-300
+
+    hover:bg-orange-500
+    hover:text-white
+    hover:border-orange-500
+    hover:shadow-lg
+    hover:shadow-orange-500/30
+  "
+      >
+
+        <FaMusic />
+
+        View Arrangement →
+
+      </Link>
 
     </div>
   );
