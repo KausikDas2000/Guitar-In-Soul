@@ -2,7 +2,6 @@ import {
   FaHeart,
   FaEye,
   FaDownload,
-  FaUserCircle,
   FaPlay,
   FaMusic,
   FaCalendarAlt,
@@ -109,7 +108,8 @@ const SongHeader = ({
       relative
       grid
       gap-14
-      p-10
+      p-10 
+      grid-cols-1
       lg:grid-cols-[380px_minmax(0,1fr)]
     "
       >
@@ -201,20 +201,15 @@ const SongHeader = ({
               className="
             relative
             z-10
-
             w-full
             max-w-[340px]
+            sm:max-w-[340px]
             aspect-square
-
             rounded-[32px]
-
             object-cover
-
             shadow-[0_25px_60px_rgba(0,0,0,.55)]
-
             transition-all
             duration-700
-
             group-hover:scale-105
           "
             />
@@ -249,6 +244,9 @@ const SongHeader = ({
             flex
             h-20
             w-20
+            whitespace-nowrap
+text-sm
+sm:text-lg
 
             -translate-x-1/2
             -translate-y-1/2
@@ -265,7 +263,9 @@ const SongHeader = ({
 
             backdrop-blur-xl
 
-            text-3xl
+            text-xl
+sm:text-2xl
+lg:text-3xl
 
             opacity-0
             scale-75
@@ -329,7 +329,10 @@ const SongHeader = ({
             className="
           mt-3
 
-          text-5xl
+         text-xl
+sm:text-2xl
+lg:text-3xl
+          sm:text-4xl
           lg:text-6xl
 
           font-black
@@ -367,7 +370,10 @@ const SongHeader = ({
                 Artist
               </p>
 
-              <h3 className="text-2xl font-bold">
+              <h3 className="text-xl
+sm:text-2xl
+font-bold
+break-words">
                 {song.artist}
               </h3>
 
@@ -425,7 +431,13 @@ const SongHeader = ({
 
           {/* Uploader */}
 
-          <div className="flex items-center justify-between flex-wrap gap-6">
+          <div className="flex
+flex-col
+sm:flex-row
+items-start
+sm:items-center
+justify-between
+gap-6">
 
             <div className="flex items-center gap-4">
 
@@ -500,7 +512,12 @@ const SongHeader = ({
 
           {/* ================= PREMIUM STATS ================= */}
 
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="mt-10
+grid
+grid-cols-1
+sm:grid-cols-2
+lg:grid-cols-3
+gap-5">
 
             {/* Likes */}
             <div
@@ -531,7 +548,9 @@ const SongHeader = ({
 
               <FaHeart
                 className={`
-        text-3xl
+        text-xl
+sm:text-2xl
+lg:text-3xl
 
         transition-all
         duration-300
@@ -543,7 +562,9 @@ const SongHeader = ({
       `}
               />
 
-              <h2 className="mt-5 text-3xl font-bold text-white">
+              <h2 className="mt-5 text-xl
+sm:text-2xl
+lg:text-3xl font-bold text-white">
                 {likeCount}
               </h2>
 
@@ -577,9 +598,13 @@ const SongHeader = ({
     "
             >
 
-              <FaEye className="text-3xl text-sky-400" />
+              <FaEye className="text-xl
+sm:text-2xl
+lg:text-3xl text-sky-400" />
 
-              <h2 className="mt-5 text-3xl font-bold text-white">
+              <h2 className="mt-5 text-xl
+sm:text-2xl
+lg:text-3xl font-bold text-white">
                 {song.views}
               </h2>
 
@@ -613,9 +638,13 @@ const SongHeader = ({
     "
             >
 
-              <FaDownload className="text-3xl text-green-400" />
+              <FaDownload className="text-xl
+sm:text-2xl
+lg:text-3xl text-green-400" />
 
-              <h2 className="mt-5 text-3xl font-bold text-white">
+              <h2 className="mt-5 text-xl
+sm:text-2xl
+lg:text-3xl font-bold text-white">
                 {song.downloads}
               </h2>
 
@@ -637,8 +666,8 @@ const SongHeader = ({
       gap-5
 
       ${(user?._id === song.uploader?._id || user?.role === "admin")
-                  ? "grid-cols-1 md:grid-cols-4"
-                  : "grid-cols-1 md:grid-cols-3"
+                  ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
+                  : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
                 }
     `}
             >
@@ -659,6 +688,9 @@ const SongHeader = ({
 
         h-20
         px-6
+        whitespace-nowrap
+text-sm
+sm:text-lg
 
         bg-gradient-to-r
         from-orange-500
@@ -707,6 +739,9 @@ const SongHeader = ({
 
         h-20
         px-6
+        whitespace-nowrap
+text-sm
+sm:text-lg
 
         bg-zinc-800
 
@@ -757,6 +792,9 @@ const SongHeader = ({
 
           h-20
           px-6
+          whitespace-nowrap
+text-sm
+sm:text-lg
 
           bg-red-500/10
 
@@ -807,6 +845,9 @@ const SongHeader = ({
     rounded-2xl
 
     h-20
+    whitespace-nowrap
+text-sm
+sm:text-lg
 
     font-semibold
     text-lg
@@ -916,7 +957,7 @@ const SongHeader = ({
               Arrangement Creator
             </p>
 
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-8 xl:flex-row lg:items-center lg:justify-between">
 
               {/* Left Side */}
 
@@ -973,7 +1014,11 @@ const SongHeader = ({
 
                   <div className="flex items-center gap-3">
 
-                    <h2 className="text-3xl font-bold">
+                    <h2 className="text-xl
+sm:text-2xl
+lg:text-xl
+sm:text-2xl
+lg:text-3xl font-bold">
                       {song.uploader?.name || "Unknown"}
                     </h2>
 
@@ -1017,6 +1062,9 @@ const SongHeader = ({
 
           px-8
           h-20
+          whitespace-nowrap
+text-sm
+sm:text-lg
 
           text-center
         "
@@ -1040,6 +1088,9 @@ const SongHeader = ({
 
           px-8
           h-20
+          whitespace-nowrap
+text-sm
+sm:text-lg
 
           text-center
         "
@@ -1112,7 +1163,9 @@ const SongHeader = ({
         from-orange-500
         to-orange-600
 
-        text-3xl
+        text-xl
+sm:text-2xl
+lg:text-3xl
 
         shadow-xl
         shadow-orange-500/30
@@ -1127,7 +1180,9 @@ const SongHeader = ({
                   Description
                 </p>
 
-                <h2 className="text-3xl font-bold text-white">
+                <h2 className="text-xl
+sm:text-2xl
+lg:text-3xl font-bold text-white">
                   About this Arrangement
                 </h2>
 
