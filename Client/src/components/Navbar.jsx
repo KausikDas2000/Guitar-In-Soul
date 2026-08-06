@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaMusic, FaBars, FaTimes, FaBell } from "react-icons/fa";
-import NotificationDropdown from "../notifications/NotificationDropdown";
+import NotificationDropdown from "../components/notifications/NotificationDropdown";
 import { getNotifications } from "../services/notificationService";
 
 const Navbar = () => {
