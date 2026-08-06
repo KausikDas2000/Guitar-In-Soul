@@ -2,7 +2,11 @@ import Arrangement from "../model/Arrangement.js";
 import cloudinary from "../config/cloudinary.js";
 import Notification from "../model/Notification.js";
 import User from "../model/user.js";
+import "../config/firebaseAdmin.js";
 import { getMessaging } from "firebase-admin/messaging";
+import { getApps } from "firebase-admin/app";
+
+console.log("Firebase apps:", getApps().length);
 
 export const createArrangement = async (req, res) => {
   try {
@@ -59,16 +63,25 @@ export const createArrangement = async (req, res) => {
     });
 
     for (const user of users) {
-      await getMessaging().send({
-        token: user.fcmToken,
-        notification: {
-          title: "New Arrangement",
-          body: `${arrangement.title} uploaded`,
-        },
-        data: {
-          arrangementId: arrangement._id.toString(),
-        },
-      });
+      try {
+        const response = await getMessaging().send({
+          token: user.fcmToken,
+          notification: {
+            title: "New Arrangement",
+            body: `${arrangement.title} uploaded`,
+          },
+          data: {
+            arrangementId: arrangement._id.toString(),
+          },
+        });
+
+        console.log("✅ Push sent:", response);
+      } catch (error) {
+        console.error("🔥 Firebase Send Error");
+        console.error(error.code);
+        console.error(error.message);
+        console.error(error);
+      }
     }
 
     // ✅ Create notification

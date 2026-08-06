@@ -4,6 +4,7 @@ import app from "./app.js";
 import { register } from "./controllers/authController.js";
 
 dotenv.config();
+import "./config/firebaseAdmin.js";
 
 
 
