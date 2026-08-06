@@ -13,7 +13,8 @@ export const requestNotificationPermission = async () => {
 
     const token = await getToken(messaging, {
       vapidKey:
-        "BJk7OpPVqRIVBjt8H-K7s4w0wFbu_MqdVbZMvRPHGbNPgxWokxZ5mYgWKfGw59OhNP5RgOl_N9K3selNvJ9AVcM1",
+        "BJk7OpPVqRIVBjt8H-K7s4w0wFbu_MqdVbZMvRPHGbNPgxWokxZ5mYgWKfGw59OhNP5RgOl_N9K3selNvJ9AVcM",
+        
     });
 
     if (token) {

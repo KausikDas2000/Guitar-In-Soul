@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaMusic, FaBars, FaTimes, FaBell } from "react-icons/fa";
 import NotificationDropdown from "../components/notifications/NotificationDropdown";
 import { getNotifications } from "../services/notificationService";
+import { requestNotificationPermission } from "../requestNotificationPermission";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -28,6 +29,12 @@ const Navbar = () => {
     setOpen(false);
     navigate("/login");
   };
+
+  useEffect(() => {
+  if (token) {
+    requestNotificationPermission();
+  }
+}, [token]);
 
 
 

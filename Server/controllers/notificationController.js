@@ -6,22 +6,33 @@ import User from "../model/user.js";
 
 export const saveFcmToken = async (req, res) => {
   try {
+      console.log("🔥 saveFcmToken called");
+    console.log(req.body);
+    console.log(req.user);
     const { fcmToken } = req.body;
+
+
+    if (!fcmToken) {
+      return res.status(400).json({
+        success: false,
+        message: "FCM token is required",
+      });
+    }
 
     await User.findByIdAndUpdate(req.user._id, {
       fcmToken,
     });
 
-    res.json({
+    return res.json({
       success: true,
-      message: "FCM token saved",
+      message: "FCM token saved successfully",
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error("Save FCM Token Error:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Failed to save token",
+      message: "Server Error",
     });
   }
 };
