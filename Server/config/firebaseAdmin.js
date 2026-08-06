@@ -1,11 +1,11 @@
 import { cert, initializeApp } from "firebase-admin/app";
-import admin from "firebase-admin";
-import serviceAccount from "../guitar-in-soul-firebase-adminsdk-fbsvc-2793261a4e.json" with { type: "json" };
 
-
-initializeApp({
-  credential: cert(serviceAccount),
+const app = initializeApp({
+  credential: cert({
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+  }),
 });
 
-
-export default admin;
+export default app;
