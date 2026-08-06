@@ -19,6 +19,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
+  console.log("Token in Navbar:", token);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
