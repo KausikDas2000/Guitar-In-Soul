@@ -9,7 +9,7 @@ import {
 import {
     markNotificationAsRead,
     markAllNotificationsAsRead,
-} from "../services/notificationService";
+} from "../../services/notificationService";
 
 const NotificationDropdown = ({
     notifications = [],
