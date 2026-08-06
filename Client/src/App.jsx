@@ -28,6 +28,7 @@ import About from "./pages/About";
 import CookieBanner from "./components/CookieBanner";
 import CookiePolicy from "./pages/CookiePolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Notifications from "./pages/Notification";
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/search" element={<Search />} />
+        <Route path="/notifications" element={<Notifications />} />
 
         <Route path="*" element={<NotFound />} />
 
@@ -71,6 +73,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="users" element={<Users />} />
           <Route path="messages" element={<Messages />} />
+          
 
           <Route path="arrangements" element={<Arrangementss />} />
           <Route path="arrangements/edit/:id" element={<EditArrangement />} />
