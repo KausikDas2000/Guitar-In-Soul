@@ -1,11 +1,17 @@
-import { cert, initializeApp } from "firebase-admin/app";
+import dotenv from "dotenv";
+dotenv.config();
 
-const app = initializeApp({
-  credential: cert({
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  }),
-});
+import { initializeApp, cert, getApps } from "firebase-admin/app";
+
+const app =
+  getApps().length === 0
+    ? initializeApp({
+        credential: cert({
+          projectId: process.env.FIREBASE_PROJECT_ID,
+          privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+          clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        }),
+      })
+    : getApps()[0];
 
 export default app;
