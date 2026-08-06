@@ -2,7 +2,7 @@ import Arrangement from "../model/Arrangement.js";
 import cloudinary from "../config/cloudinary.js";
 import Notification from "../model/Notification.js";
 import User from "../model/user.js";
-import admin from "../config/firebaseAdmin.js";
+import { getMessaging } from "firebase-admin/messaging";
 
 export const createArrangement = async (req, res) => {
   try {
@@ -52,15 +52,18 @@ export const createArrangement = async (req, res) => {
 
     // Send push notification to users
     const users = await User.find({
-      fcmToken: { $exists: true, $ne: null },
+      fcmToken: {
+        $exists: true,
+        $nin: [null, ""],
+      },
     });
 
     for (const user of users) {
-      await admin.messaging().send({
+      await getMessaging().send({
         token: user.fcmToken,
         notification: {
-          title: "New Guitar Arrangement 🎸",
-          body: `${arrangement.title} has been uploaded!`,
+          title: "New Arrangement",
+          body: `${arrangement.title} uploaded`,
         },
         data: {
           arrangementId: arrangement._id.toString(),
