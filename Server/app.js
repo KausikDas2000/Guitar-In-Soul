@@ -9,6 +9,7 @@ import favoriteRoutes from "./routes/fevoriteRoute.js"
 import adminRoutes from "./routes/adminRoute.js";
 import contactRoutes from "./routes/contactRoute.js";
 import requestRoutes from "./routes/requestRoute.js";
+import notificationRoutes from "./routes/notificationRoute.js";
 
 
 const app = express();
@@ -36,6 +37,7 @@ app.use("/api/favorites", favoriteRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 
 // Error Handler

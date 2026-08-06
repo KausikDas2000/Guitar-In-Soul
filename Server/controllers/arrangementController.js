@@ -1,15 +1,12 @@
 import Arrangement from "../model/Arrangement.js";
 import cloudinary from "../config/cloudinary.js";
+import Notification from "../model/Notification.js";
+import User from "../model/user.js";
+import admin from "../config/firebaseAdmin.js";
 
 export const createArrangement = async (req, res) => {
   try {
-    const {
-      title,
-      artist,
-      genre,
-      difficulty,
-      description,
-    } = req.body;
+    const { title, artist, genre, difficulty, description } = req.body;
 
     if (!title || !artist) {
       return res.status(400).json({
@@ -31,26 +28,53 @@ export const createArrangement = async (req, res) => {
 
       coverImage: cover
         ? {
-          url: cover.path,
-          publicId: cover.filename,
-        }
+            url: cover.path,
+            publicId: cover.filename,
+          }
         : {},
 
       notationPdf: pdf
         ? {
-          url: pdf.path,
-          publicId: pdf.filename,
-        }
+            url: pdf.path,
+            publicId: pdf.filename,
+          }
         : {},
 
       audioFile: audio
         ? {
-          url: audio.path,
-          publicId: audio.filename,
-        }
+            url: audio.path,
+            publicId: audio.filename,
+          }
         : {},
 
       uploader: req.user._id,
+    });
+
+    // Send push notification to users
+    const users = await User.find({
+      fcmToken: { $exists: true, $ne: null },
+    });
+
+    for (const user of users) {
+      await admin.messaging().send({
+        token: user.fcmToken,
+        notification: {
+          title: "New Guitar Arrangement 🎸",
+          body: `${arrangement.title} has been uploaded!`,
+        },
+        data: {
+          arrangementId: arrangement._id.toString(),
+        },
+      });
+    }
+
+    // ✅ Create notification
+    await Notification.create({
+      title: "New Arrangement Uploaded",
+      message: `${arrangement.title} by ${arrangement.artist}`,
+      type: "upload",
+      arrangement: arrangement._id,
+      createdBy: req.user._id,
     });
 
     res.status(201).json({
@@ -67,9 +91,6 @@ export const createArrangement = async (req, res) => {
     });
   }
 };
-
-
-
 
 export const getAllArrangements = async (req, res) => {
   try {
@@ -92,66 +113,55 @@ export const getAllArrangements = async (req, res) => {
 
 export const getArrangementById = async (req, res) => {
   try {
-
-    const arrangement = await Arrangement.findById(req.params.id)
-      .populate("uploader", "name email profileImage");
-
+    const arrangement = await Arrangement.findById(req.params.id).populate(
+      "uploader",
+      "name email profileImage",
+    );
 
     if (!arrangement) {
       return res.status(404).json({
         success: false,
-        message: "Arrangement not found"
+        message: "Arrangement not found",
       });
     }
-
 
     // Get viewer information
     const userId = req.user?._id?.toString() || null;
 
     const visitorId = req.headers.visitorid;
 
-
     // Check if already viewed
     const alreadyViewed = arrangement.viewedBy.some(
-      view =>
+      (view) =>
         (userId && view.user?.toString() === userId) ||
-        view.visitorId === visitorId
+        view.visitorId === visitorId,
     );
-
 
     // Increase only first time
     if (!alreadyViewed) {
-
       arrangement.views += 1;
 
       arrangement.viewedBy.push({
         user: userId,
-        visitorId
+        visitorId,
       });
 
       await arrangement.save();
     }
 
-
     res.json({
       success: true,
-      arrangement
+      arrangement,
     });
-
-
   } catch (error) {
-
     console.log(error);
 
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
-
   }
 };
-
-
 
 export const updateArrangement = async (req, res) => {
   const arrangement = await Arrangement.findById(req.params.id);
@@ -191,12 +201,6 @@ export const updateArrangement = async (req, res) => {
   });
 };
 
-
-
-
-
-
-
 export const deleteArrangement = async (req, res) => {
   try {
     const arrangement = await Arrangement.findById(req.params.id);
@@ -218,29 +222,21 @@ export const deleteArrangement = async (req, res) => {
 
     // Delete cover image
     if (arrangement.coverImage?.publicId) {
-      await cloudinary.uploader.destroy(
-        arrangement.coverImage.publicId
-      );
+      await cloudinary.uploader.destroy(arrangement.coverImage.publicId);
     }
 
     // Delete PDF
     if (arrangement.notationPdf?.publicId) {
-      await cloudinary.uploader.destroy(
-        arrangement.notationPdf.publicId,
-        {
-          resource_type: "raw",
-        }
-      );
+      await cloudinary.uploader.destroy(arrangement.notationPdf.publicId, {
+        resource_type: "raw",
+      });
     }
 
     // Delete audio
     if (arrangement.audioFile?.publicId) {
-      await cloudinary.uploader.destroy(
-        arrangement.audioFile.publicId,
-        {
-          resource_type: "video",
-        }
-      );
+      await cloudinary.uploader.destroy(arrangement.audioFile.publicId, {
+        resource_type: "video",
+      });
     }
 
     await arrangement.deleteOne();
@@ -259,8 +255,6 @@ export const deleteArrangement = async (req, res) => {
   }
 };
 
-
-
 // for Like
 export const toggleLike = async (req, res) => {
   try {
@@ -276,12 +270,12 @@ export const toggleLike = async (req, res) => {
     const userId = req.user._id.toString();
 
     const alreadyLiked = arrangement.likes.some(
-      (id) => id.toString() === userId
+      (id) => id.toString() === userId,
     );
 
     if (alreadyLiked) {
       arrangement.likes = arrangement.likes.filter(
-        (id) => id.toString() !== userId
+        (id) => id.toString() !== userId,
       );
     } else {
       arrangement.likes.push(userId);
@@ -303,7 +297,6 @@ export const toggleLike = async (req, res) => {
   }
 };
 
-
 export const incrementDownload = async (req, res) => {
   try {
     const song = await Arrangement.findByIdAndUpdate(
@@ -311,7 +304,7 @@ export const incrementDownload = async (req, res) => {
       {
         $inc: { downloads: 1 },
       },
-      { new: true }
+      { new: true },
     );
 
     if (!song) {
@@ -325,7 +318,6 @@ export const incrementDownload = async (req, res) => {
       success: true,
       downloads: song.downloads,
     });
-
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -333,4 +325,3 @@ export const incrementDownload = async (req, res) => {
     });
   }
 };
-

@@ -53,3 +53,7 @@ coverage/
 # ==========================
 *.tmp
 *.temp
+# ==========================
+# Firebase Files
+# ==========================
+guitar-in-soul-firebase-adminsdk-fbsvc-2793261a4e.json
