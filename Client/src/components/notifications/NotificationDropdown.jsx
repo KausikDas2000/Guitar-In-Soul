@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
     FaBell,
@@ -18,7 +19,7 @@ const NotificationDropdown = ({
     isOpen,
 }) => {
 
-
+    const [unreadCount, setUnreadCount] = useState(0);
     const handleNotificationClick = async (id) => {
         try {
             await markNotificationAsRead(id);
