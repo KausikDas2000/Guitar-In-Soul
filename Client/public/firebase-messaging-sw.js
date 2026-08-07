@@ -1,55 +1,94 @@
-importScripts("https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js");
+importScripts(
+  "https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"
+);
+
+importScripts(
+  "https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js"
+);
+
 
 firebase.initializeApp({
+
   apiKey: "AIzaSyBef6wrUkSt1e76s8u7vsrqjXpHyjaYuYM",
+
   authDomain: "guitar-in-soul.firebaseapp.com",
+
   projectId: "guitar-in-soul",
+
   storageBucket: "guitar-in-soul.firebasestorage.app",
+
   messagingSenderId: "69388274348",
-  appId: "1:69388274348:web:fc78ed50202c0d9339ad09",
+
+  appId: "1:69388274348:web:fc78ed50202c0d9339ad09"
+
 });
+
 
 const messaging = firebase.messaging();
 
 
-/*
-  Background notification
-*/
-messaging.onBackgroundMessage((payload) => {
 
-  console.log("Background Notification:", payload);
+//
+// Background notification
+//
+messaging.onBackgroundMessage((payload)=>{
 
 
-  const notificationTitle = payload.notification?.title || "Guitar In Soul";
+  console.log(
+    "Background message:",
+    payload
+  );
 
-  const notificationOptions = {
-    body: payload.notification?.body || "",
-    icon: "/favicon.png",
-    badge: "./favicon.png",
 
-    // IMPORTANT
-    data: {
-      url: payload.data?.url || "https://guitar-in-soul.vercel.app"
+  const title =
+    payload.data?.title ||
+    "Guitar In Soul";
+
+
+  const options = {
+
+
+    body:
+      payload.data?.body ||
+      "",
+
+
+    icon:
+      "/favicon.png",
+
+
+    badge:
+      "/favicon.png",
+
+
+    data:{
+      url:
+        payload.data?.url ||
+        "https://guitar-in-soul.vercel.app"
     }
+
   };
 
 
   self.registration.showNotification(
-    notificationTitle,
-    notificationOptions
+    title,
+    options
   );
+
 
 });
 
 
 
-/*
-  Notification click redirect
-*/
-self.addEventListener("notificationclick", (event) => {
 
-  console.log("Notification clicked:", event.notification);
+
+//
+// Notification click
+//
+self.addEventListener(
+"notificationclick",
+(event)=>{
+
 
   event.notification.close();
 
@@ -59,20 +98,31 @@ self.addEventListener("notificationclick", (event) => {
     "https://guitar-in-soul.vercel.app";
 
 
+
   event.waitUntil(
 
     clients.matchAll({
-      type: "window",
-      includeUncontrolled: true
+
+      type:"window",
+
+      includeUncontrolled:true
+
     })
 
-    .then((clientList) => {
+    .then((clientList)=>{
 
-      for (const client of clientList) {
 
-        if (client.url.includes("guitar-in-soul")) {
+      for(const client of clientList){
+
+
+        if(
+          client.url.includes(
+            "guitar-in-soul"
+          )
+        ){
 
           client.navigate(url);
+
           return client.focus();
 
         }
@@ -82,9 +132,11 @@ self.addEventListener("notificationclick", (event) => {
 
       return clients.openWindow(url);
 
+
     })
 
   );
+
 
 });
 
