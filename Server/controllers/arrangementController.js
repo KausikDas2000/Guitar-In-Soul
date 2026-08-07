@@ -66,13 +66,21 @@ export const createArrangement = async (req, res) => {
       try {
         const response = await getMessaging().send({
           token: user.fcmToken,
+
           notification: {
             title: "New Arrangement",
             body: `${arrangement.title} uploaded`,
           },
+
           data: {
             arrangementId: arrangement._id.toString(),
             url: `https://guitar-in-soul.vercel.app/song/${arrangement._id.toString()}`,
+          },
+
+          webpush: {
+            fcmOptions: {
+              link: `https://guitar-in-soul.vercel.app/song/${arrangement._id.toString()}`,
+            },
           },
         });
 
@@ -81,7 +89,6 @@ export const createArrangement = async (req, res) => {
         console.error("🔥 Firebase Send Error");
         console.error(error.code);
         console.error(error.message);
-        console.error(error);
       }
     }
 
