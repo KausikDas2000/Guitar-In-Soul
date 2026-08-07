@@ -12,26 +12,94 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
+
+/*
+  Background notification
+*/
 messaging.onBackgroundMessage((payload) => {
+
   console.log("Background Notification:", payload);
 
-  self.registration.showNotification(
-    payload.notification.title,
-    {
-      body: payload.notification.body,
-      icon: "/logo192.png", // change to your logo if you have one
-      badge: "/logo192.png",
+
+  const notificationTitle = payload.notification?.title || "Guitar In Soul";
+
+  const notificationOptions = {
+    body: payload.notification?.body || "",
+    icon: "/logo192.png",
+    badge: "/logo192.png",
+
+    // IMPORTANT
+    data: {
+      url: payload.data?.url || "https://guitar-in-soul.vercel.app"
     }
+  };
+
+
+  self.registration.showNotification(
+    notificationTitle,
+    notificationOptions
   );
+
 });
 
-self.addEventListener("push", (event) => {
-  console.log("Push event received:", event);
+
+
+/*
+  Notification click redirect
+*/
+self.addEventListener("notificationclick", (event) => {
+
+  console.log("Notification clicked:", event.notification);
+
+  event.notification.close();
+
+
+  const url =
+    event.notification.data?.url ||
+    "https://guitar-in-soul.vercel.app";
+
 
   event.waitUntil(
-    self.registration.showNotification("Push Test", {
-      body: "This notification came from the push event.",
-      icon: "/logo192.png",
+
+    clients.matchAll({
+      type: "window",
+      includeUncontrolled: true
     })
+
+    .then((clientList) => {
+
+      for (const client of clientList) {
+
+        if (client.url.includes("guitar-in-soul")) {
+
+          client.navigate(url);
+          return client.focus();
+
+        }
+
+      }
+
+
+      return clients.openWindow(url);
+
+    })
+
   );
+
 });
+
+
+
+/*
+  Remove this while testing.
+  It creates duplicate notifications.
+*/
+
+// self.addEventListener("push", (event) => {
+//   event.waitUntil(
+//     self.registration.showNotification("Push Test", {
+//       body: "This notification came from the push event.",
+//       icon: "/logo192.png",
+//     })
+//   );
+// });

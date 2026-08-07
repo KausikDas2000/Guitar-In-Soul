@@ -72,6 +72,7 @@ export const createArrangement = async (req, res) => {
           },
           data: {
             arrangementId: arrangement._id.toString(),
+            url: `https://guitar-in-soul.vercel.app/song/${arrangement._id.toString()}`,
           },
         });
 
