@@ -113,7 +113,7 @@ const NotificationDropdown = ({
                     notifications.map((notification) => (
                         <Link
                             key={notification._id}
-                            to={`/arrangement/${notification.arrangement?._id}`}
+                            to={`/song/${notification.arrangement?._id}`}
                             onClick={() => handleNotificationClick(notification._id)}
                             className={`group flex gap-4 p-4 border-b border-orange-500/5 transition-all duration-300 ${notification.isRead
                                 ? "bg-transparent hover:bg-orange-500/5"

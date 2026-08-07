@@ -301,7 +301,7 @@ const Notifications = () => {
                                                 key={notification._id}
 
                                                 to={
-                                                    `/arrangement/${notification.arrangement?._id}`
+                                                    `/song/${notification.arrangement?._id}`
                                                 }
 
                                                 onClick={() =>
