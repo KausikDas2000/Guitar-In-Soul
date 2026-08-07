@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaBell, FaMusic, FaArrowRight, FaCheckDouble, FaTrash } from "react-icons/fa";
+import {
+  FaBell,
+  FaMusic,
+  FaArrowRight,
+  FaCheckDouble,
+  FaTrash,
+} from "react-icons/fa";
 
 import {
   getNotifications,
@@ -67,7 +73,7 @@ const Notifications = () => {
 
   const handleClearAll = async () => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete all notifications?"
+      "Are you sure you want to delete all notifications?",
     );
 
     if (!confirmDelete) return;
@@ -82,14 +88,11 @@ const Notifications = () => {
     }
   };
 
-
   const handleDelete = async (e, id) => {
     e.preventDefault(); // Prevent Link navigation
     e.stopPropagation();
 
-    const confirmDelete = window.confirm(
-      "Delete this notification?"
-    );
+    const confirmDelete = window.confirm("Delete this notification?");
 
     if (!confirmDelete) return;
 
@@ -97,7 +100,7 @@ const Notifications = () => {
       await deleteNotification(id);
 
       setNotifications((prev) =>
-        prev.filter((notification) => notification._id !== id)
+        prev.filter((notification) => notification._id !== id),
       );
     } catch (error) {
       console.log(error);
@@ -127,14 +130,7 @@ const Notifications = () => {
       >
         {/* Header */}
 
-        <div
-          className="
-                    flex
-                    items-center
-                    justify-between
-                    mb-10
-                "
-        >
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
           <div className="flex items-center gap-4">
             <div
               className="
@@ -176,35 +172,47 @@ const Notifications = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-
+          <div className="flex flex-wrap gap-3 w-full md:w-auto">
             {notifications.length > 0 && (
               <button
                 onClick={handleMarkAll}
                 disabled={unread === 0}
                 className={`
-        flex items-center gap-2 px-5 py-3 rounded-full font-semibold transition
-        ${unread > 0
+                            flex-1 md:flex-none
+                            flex items-center justify-center gap-2
+                            px-4 py-3
+                            rounded-xl
+                            font-semibold
+                            transition
+                            ${unread > 0
                     ? "bg-orange-500 hover:bg-orange-600 text-white"
                     : "bg-zinc-700 text-gray-400 cursor-not-allowed"
                   }
-      `}
+                          `}
               >
                 <FaCheckDouble />
-                Mark all read
+                <span>Mark all read</span>
               </button>
             )}
 
             {notifications.length > 0 && (
               <button
                 onClick={handleClearAll}
-                className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-full font-semibold transition"
+                className="
+                        flex-1 md:flex-none
+                        flex items-center justify-center gap-2
+                        bg-red-500 hover:bg-red-600
+                        text-white
+                        px-4 py-3
+                        rounded-xl
+                        font-semibold
+                        transition
+  "
               >
                 <FaTrash />
-                Clear All
+                <span>Clear All</span>
               </button>
             )}
-
           </div>
         </div>
 
@@ -288,13 +296,7 @@ const Notifications = () => {
 
                             `}
               >
-                <div
-                  className="
-                                    flex
-                                    gap-5
-                                    items-center
-                                "
-                >
+               <div className="flex flex-col sm:flex-row gap-5">
                   {/* Cover */}
 
                   <img
@@ -302,15 +304,17 @@ const Notifications = () => {
                       notification.arrangement?.coverImage?.url ||
                       "/placeholder.jpg"
                     }
-                    className="
-                                    w-24
-                                    h-24
-                                    rounded-2xl
-                                    object-cover
-                                    shadow-xl
-                                    group-hover:scale-105
-                                    transition
-                                    "
+                   className="
+                            w-full
+                            sm:w-24
+                            h-48
+                            sm:h-24
+                            rounded-2xl
+                            object-cover
+                            shadow-xl
+                            group-hover:scale-105
+                            transition
+                            "
                   />
 
                   {/* Text */}
@@ -320,7 +324,7 @@ const Notifications = () => {
                                         flex-1
                                     "
                   >
-                    <div className="flex justify-between items-start">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
                       <h2
                         className="
       text-xl
@@ -332,9 +336,11 @@ const Notifications = () => {
                         {notification.arrangement?.title}
                       </h2>
 
-                      <div className="flex items-center gap-3">
+                     <div className="flex items-center justify-between sm:justify-end gap-3">
                         <span className="text-xs text-gray-500">
-                          {new Date(notification.createdAt).toLocaleDateString()}
+                          {new Date(
+                            notification.createdAt,
+                          ).toLocaleDateString()}
                         </span>
 
                         <button
