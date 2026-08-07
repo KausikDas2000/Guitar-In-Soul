@@ -6,6 +6,7 @@ import {
   FaMusic,
   FaCalendarAlt,
   FaTrash,
+  FaShareAlt,
 } from "react-icons/fa";
 
 import { useState } from "react";
@@ -28,6 +29,26 @@ const SongHeader = ({
 
 
   const [showPreview, setShowPreview] = useState(false);
+
+
+  const handleShare = async () => {
+  const shareUrl = window.location.href;
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: song.title,
+        text: `Check out "${song.title}" by ${song.artist} on Guitar In Soul!`,
+        url: shareUrl,
+      });
+    } else {
+      await navigator.clipboard.writeText(shareUrl);
+      alert("Link copied to clipboard!");
+    }
+  } catch (err) {
+    console.log("Share cancelled", err);
+  }
+};
 
 
   const user = JSON.parse(
@@ -191,6 +212,60 @@ lg:gap-14
 lg:p-10
 "
       >
+
+
+        {/* Share Button */}
+<button
+  onClick={handleShare}
+  aria-label="Share Arrangement"
+  className="
+    absolute
+    top-4
+    right-4
+    sm:top-5
+    sm:right-5
+    lg:top-6
+    lg:right-6
+
+    z-50
+
+    flex
+    items-center
+    justify-center
+
+    h-10
+    w-10
+    sm:h-11
+    sm:w-11
+    lg:h-12
+    lg:w-12
+
+    rounded-full
+
+    border
+    border-white/20
+
+    bg-black/40
+    backdrop-blur-xl
+
+    text-white
+    text-sm
+    sm:text-base
+    lg:text-lg
+
+    transition-all
+    duration-300
+
+    hover:bg-orange-500
+    hover:border-orange-400
+    hover:scale-110
+    hover:rotate-12
+
+    active:scale-95
+  "
+>
+  <FaShareAlt />
+</button>
 
 
 
