@@ -24,3 +24,14 @@ messaging.onBackgroundMessage((payload) => {
     }
   );
 });
+
+self.addEventListener("push", (event) => {
+  console.log("Push event received:", event);
+
+  event.waitUntil(
+    self.registration.showNotification("Push Test", {
+      body: "This notification came from the push event.",
+      icon: "/logo192.png",
+    })
+  );
+});
