@@ -122,7 +122,13 @@ const NotificationDropdown = ({
 
                             {/* Unread Dot */}
                             <div className="mt-2">
-                                <span className="block w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,.8)]"></span>
+                                {!notification.isRead ? (
+                                    <span className="block w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,.8)]"></span>
+                                ) : (
+                                    <span className="text-green-400 text-xs font-semibold">
+                                        ✓ Read
+                                    </span>
+                                )}
                             </div>
 
                             {/* Cover */}

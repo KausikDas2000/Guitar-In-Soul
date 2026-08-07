@@ -11,7 +11,9 @@ const Navbar = () => {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loadingNotifications, setLoadingNotifications] = useState(true);
-
+   const unreadCount = notifications.filter(
+  (notification) => !notification.isRead
+).length;
   const notificationRef = useRef(null);
   const dropdownRef = useRef(null);
 
@@ -60,9 +62,7 @@ const Navbar = () => {
     };
 
 
-    const unreadCount = notifications.filter(
-      (notification) => !notification.isRead
-    ).length;
+  
 
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -169,12 +169,12 @@ const Navbar = () => {
                 >
                   <FaBell className="text-xl text-orange-500" />
 
-                  {notifications.length > 0 && (
+                  {unreadCount > 0 && (
                     <>
                       <span className="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
 
                       <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-orange-500 text-white text-[10px] font-bold flex items-center justify-center">
-                        {notifications.length > 99 ? "99+" : notifications.length}
+                        {unreadCount > 99 ? "99+" : unreadCount}
                       </span>
                     </>
                   )}
@@ -441,9 +441,9 @@ const Navbar = () => {
               >
                 <span>🔔 Notifications</span>
 
-                {notifications.length > 0 && (
+                {unreadCount > 0 && (
                   <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded-full">
-                    {notifications.length > 99 ? "99+" : notifications.length}
+                    {unreadCount > 99 ? "99+" : unreadCount}
                   </span>
                 )}
               </Link>

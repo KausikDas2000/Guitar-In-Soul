@@ -156,17 +156,11 @@ export const markAsRead = async (req, res) => {
   }
 };
 
-
 export const markAllAsRead = async (req, res) => {
   try {
     await Notification.updateMany(
-      {
-        recipient: req.user._id,
-        isRead: false,
-      },
-      {
-        isRead: true,
-      }
+      { isRead: false },
+      { $set: { isRead: true } }
     );
 
     res.json({

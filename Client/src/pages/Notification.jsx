@@ -1,114 +1,114 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-    FaBell,
-    FaMusic,
-    FaArrowRight,
-    FaCheckDouble,
-} from "react-icons/fa";
+import { FaBell, FaMusic, FaArrowRight, FaCheckDouble, FaTrash } from "react-icons/fa";
 
 import {
-    getNotifications,
-    markNotificationAsRead,
-    markAllNotificationsAsRead,
+  getNotifications,
+  markNotificationAsRead,
+  markAllNotificationsAsRead,
+  clearNotifications,
+  deleteNotification,
 } from "../services/notificationService";
 
-
 const Notifications = () => {
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const [notifications, setNotifications] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const loadNotifications = async () => {
+    try {
+      const data = await getNotifications();
 
+      setNotifications(data.notifications || []);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const loadNotifications = async () => {
+  useEffect(() => {
+    loadNotifications();
+  }, []);
 
-        try {
+  const handleRead = async (id) => {
+    try {
+      await markNotificationAsRead(id);
 
-            const data = await getNotifications();
+      setNotifications((prev) =>
+        prev.map((item) =>
+          item._id === id
+            ? {
+              ...item,
+              isRead: true,
+            }
+            : item,
+        ),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-            setNotifications(data.notifications || []);
+  const handleMarkAll = async () => {
+    try {
+      await markAllNotificationsAsRead();
+      await loadNotifications();
 
-        } catch (error) {
+      setNotifications((prev) =>
+        prev.map((item) => ({
+          ...item,
+          isRead: true,
+        })),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-            console.log(error);
+  const handleClearAll = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete all notifications?"
+    );
 
-        } finally {
+    if (!confirmDelete) return;
 
-            setLoading(false);
+    try {
+      await clearNotifications();
 
-        }
-    };
-
-
-    useEffect(() => {
-        loadNotifications();
-    }, []);
-
-
-
-    const handleRead = async (id) => {
-
-        try {
-
-            await markNotificationAsRead(id);
-
-            setNotifications(prev =>
-                prev.map(item =>
-                    item._id === id
-                        ? {
-                            ...item,
-                            isRead: true
-                        }
-                        :
-                        item
-                )
-            );
-
-
-        } catch (error) {
-
-            console.log(error);
-
-        }
-
-    };
-
-
-
-    const handleMarkAll = async () => {
-
-        try {
-
-            await markAllNotificationsAsRead();
-
-            setNotifications(prev =>
-                prev.map(item => ({
-                    ...item,
-                    isRead: true
-                }))
-            );
+      // Remove all notifications from UI
+      setNotifications([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
-        } catch (error) {
+  const handleDelete = async (e, id) => {
+    e.preventDefault(); // Prevent Link navigation
+    e.stopPropagation();
 
-            console.log(error);
+    const confirmDelete = window.confirm(
+      "Delete this notification?"
+    );
 
-        }
+    if (!confirmDelete) return;
 
-    };
+    try {
+      await deleteNotification(id);
 
+      setNotifications((prev) =>
+        prev.filter((notification) => notification._id !== id)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const unread = notifications.filter((item) => !item.isRead).length;
 
-    const unread =
-        notifications.filter(
-            item => !item.isRead
-        ).length;
-
-
-
-    return (
-
-        <div className="
+  return (
+    <div
+      className="
             min-h-screen
             bg-gradient-to-br
             from-black
@@ -117,28 +117,27 @@ const Notifications = () => {
             text-white
             px-6
             py-12
-        ">
-
-
-            <div className="
+        "
+    >
+      <div
+        className="
                 max-w-5xl
                 mx-auto
-            ">
+            "
+      >
+        {/* Header */}
 
-
-                {/* Header */}
-
-                <div className="
+        <div
+          className="
                     flex
                     items-center
                     justify-between
                     mb-10
-                ">
-
-
-                    <div className="flex items-center gap-4">
-
-                        <div className="
+                "
+        >
+          <div className="flex items-center gap-4">
+            <div
+              className="
                             w-14
                             h-14
                             rounded-2xl
@@ -146,170 +145,131 @@ const Notifications = () => {
                             flex
                             items-center
                             justify-center
-                        ">
-
-                            <FaBell
-                                className="
+                        "
+            >
+              <FaBell
+                className="
                                 text-orange-400
                                 text-2xl
                                 "
-                            />
+              />
+            </div>
 
-                        </div>
-
-
-                        <div>
-
-                            <h1 className="
+            <div>
+              <h1
+                className="
                                 text-3xl
                                 font-bold
-                            ">
-                                Notifications
-                            </h1>
+                            "
+              >
+                Notifications
+              </h1>
 
-
-                            <p className="
+              <p
+                className="
                                 text-gray-400
                                 text-sm
-                            ">
-                                Latest guitar arrangements and updates
-                            </p>
+                            "
+              >
+                Latest guitar arrangements and updates
+              </p>
+            </div>
+          </div>
 
+          <div className="flex items-center gap-3">
 
-                        </div>
+            {notifications.length > 0 && (
+              <button
+                onClick={handleMarkAll}
+                disabled={unread === 0}
+                className={`
+        flex items-center gap-2 px-5 py-3 rounded-full font-semibold transition
+        ${unread > 0
+                    ? "bg-orange-500 hover:bg-orange-600 text-white"
+                    : "bg-zinc-700 text-gray-400 cursor-not-allowed"
+                  }
+      `}
+              >
+                <FaCheckDouble />
+                Mark all read
+              </button>
+            )}
 
+            {notifications.length > 0 && (
+              <button
+                onClick={handleClearAll}
+                className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-full font-semibold transition"
+              >
+                <FaTrash />
+                Clear All
+              </button>
+            )}
 
-                    </div>
+          </div>
+        </div>
 
+        {/* Content */}
 
-
-                    {
-                        unread > 0 && (
-
-                            <button
-                                onClick={handleMarkAll}
-                                className="
-                                flex
-                                items-center
-                                gap-2
-                                bg-orange-500
-                                hover:bg-orange-600
-                                px-5
-                                py-3
-                                rounded-full
-                                font-semibold
-                                transition
-                                "
-                            >
-
-                                <FaCheckDouble />
-
-                                Mark all read
-
-                            </button>
-
-                        )
-                    }
-
-
-                </div>
-
-
-
-
-                {/* Content */}
-
-
-                {
-
-                    loading ? (
-
-                        <div className="
+        {loading ? (
+          <div
+            className="
                             text-center
                             py-20
                             text-gray-400
-                        ">
-                            Loading notifications...
-                        </div>
-
-
-                    )
-
-                        :
-
-                        notifications.length === 0 ? (
-
-
-                            <div className="
+                        "
+          >
+            Loading notifications...
+          </div>
+        ) : notifications.length === 0 ? (
+          <div
+            className="
                             rounded-3xl
                             bg-zinc-900/70
                             border
                             border-white/10
                             p-16
                             text-center
-                        ">
-
-
-                                <FaMusic
-                                    className="
+                        "
+          >
+            <FaMusic
+              className="
                                 mx-auto
                                 text-orange-400
                                 text-5xl
                                 mb-5
                                 "
-                                />
+            />
 
-
-                                <h2 className="
+            <h2
+              className="
                                 text-2xl
                                 font-bold
-                            ">
-                                    No Notifications
-                                </h2>
+                            "
+            >
+              No Notifications
+            </h2>
 
-
-                                <p className="
+            <p
+              className="
                                 text-gray-400
                                 mt-2
-                            ">
-                                    New guitar arrangements will appear here.
-                                </p>
-
-
-                            </div>
-
-
-                        )
-
-
-                            :
-
-
-                            (
-
-                                <div className="
+                            "
+            >
+              New guitar arrangements will appear here.
+            </p>
+          </div>
+        ) : (
+          <div
+            className="
                         space-y-5
-                    ">
-
-
-                                    {
-                                        notifications.map(notification => (
-
-
-                                            <Link
-
-                                                key={notification._id}
-
-                                                to={
-                                                    `/song/${notification.arrangement?._id}`
-                                                }
-
-                                                onClick={() =>
-                                                    handleRead(notification._id)
-                                                }
-
-
-                                                className={`
+                    "
+          >
+            {notifications.map((notification) => (
+              <Link
+                key={notification._id}
+                to={`/song/${notification.arrangement?._id}`}
+                onClick={() => handleRead(notification._id)}
+                className={`
                             
                             block
                             group
@@ -322,41 +282,27 @@ const Notifications = () => {
                             hover:shadow-2xl
 
                             ${notification.isRead
-
-                                                        ?
-
-                                                        "bg-zinc-900/50 border-white/10"
-
-                                                        :
-
-                                                        "bg-orange-500/10 border-orange-500/40"
-
-                                                    }
+                    ? "bg-zinc-900/50 border-white/10"
+                    : "bg-orange-500/10 border-orange-500/40"
+                  }
 
                             `}
-                                            >
-
-
-
-                                                <div className="
+              >
+                <div
+                  className="
                                     flex
                                     gap-5
                                     items-center
-                                ">
+                                "
+                >
+                  {/* Cover */}
 
-
-                                                    {/* Cover */}
-
-                                                    <img
-
-                                                        src={
-                                                            notification.arrangement
-                                                                ?.coverImage?.url
-                                                            ||
-                                                            "/placeholder.jpg"
-                                                        }
-
-                                                        className="
+                  <img
+                    src={
+                      notification.arrangement?.coverImage?.url ||
+                      "/placeholder.jpg"
+                    }
+                    className="
                                     w-24
                                     h-24
                                     rounded-2xl
@@ -365,73 +311,60 @@ const Notifications = () => {
                                     group-hover:scale-105
                                     transition
                                     "
+                  />
 
-                                                    />
+                  {/* Text */}
 
-
-
-                                                    {/* Text */}
-
-
-                                                    <div className="
+                  <div
+                    className="
                                         flex-1
-                                    ">
+                                    "
+                  >
+                    <div className="flex justify-between items-start">
+                      <h2
+                        className="
+      text-xl
+      font-bold
+      group-hover:text-orange-400
+      transition
+    "
+                      >
+                        {notification.arrangement?.title}
+                      </h2>
 
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs text-gray-500">
+                          {new Date(notification.createdAt).toLocaleDateString()}
+                        </span>
 
-                                                        <div className="
-                                            flex
-                                            justify-between
-                                        ">
+                        <button
+                          onClick={(e) => handleDelete(e, notification._id)}
+                          className="
+        p-2
+        rounded-full
+        text-gray-400
+        hover:text-red-500
+        hover:bg-red-500/10
+        transition
+      "
+                          title="Delete notification"
+                        >
+                          <FaTrash size={14} />
+                        </button>
+                      </div>
+                    </div>
 
-
-                                                            <h2 className="
-                                                text-xl
-                                                font-bold
-                                                group-hover:text-orange-400
-                                                transition
-                                            ">
-
-                                                                {
-                                                                    notification.arrangement?.title
-                                                                }
-
-                                                            </h2>
-
-
-
-                                                            <span className="
-                                                text-xs
-                                                text-gray-500
-                                            ">
-
-                                                                {
-                                                                    new Date(
-                                                                        notification.createdAt
-                                                                    )
-                                                                        .toLocaleDateString()
-                                                                }
-
-                                                            </span>
-
-
-                                                        </div>
-
-
-
-                                                        <p className="
+                    <p
+                      className="
                                             text-gray-400
                                             mt-2
-                                        ">
+                                        "
+                    >
+                      {notification.message}
+                    </p>
 
-                                                            {
-                                                                notification.message
-                                                            }
-
-                                                        </p>
-
-
-
-                                                        <div className="
+                    <div
+                      className="
                                             flex
                                             items-center
                                             gap-2
@@ -439,46 +372,20 @@ const Notifications = () => {
                                             mt-4
                                             text-sm
                                             font-semibold
-                                        ">
-
-                                                            Open Arrangement
-
-                                                            <FaArrowRight />
-
-
-                                                        </div>
-
-
-
-                                                    </div>
-
-
-
-                                                </div>
-
-
-                                            </Link>
-
-
-                                        ))
-                                    }
-
-
-                                </div>
-
-                            )
-
-                }
-
-
-
-            </div>
-
-
-        </div>
-
-    );
+                                        "
+                    >
+                      Open Arrangement
+                      <FaArrowRight />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
-
 
 export default Notifications;
