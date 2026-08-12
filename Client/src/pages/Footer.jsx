@@ -54,28 +54,28 @@ const Footer = () => {
             <div className="flex gap-4 mt-8">
 
               <a
-                href="#"
+                href="https://www.facebook.com/Kausikofficiall"
                 className="w-11 h-11 rounded-xl bg-gray-800 hover:bg-orange-500 flex items-center justify-center transition"
               >
                 <FaFacebookF />
               </a>
 
               <a
-                href="#"
+                href="https://www.instagram.com/kausik_03/"
                 className="w-11 h-11 rounded-xl bg-gray-800 hover:bg-orange-500 flex items-center justify-center transition"
               >
                 <FaInstagram />
               </a>
 
               <a
-                href="#"
+                href="https://www.youtube.com/@GuitarInSoul"
                 className="w-11 h-11 rounded-xl bg-gray-800 hover:bg-orange-500 flex items-center justify-center transition"
               >
                 <FaYoutube />
               </a>
 
               <a
-                href="#"
+                href="https://github.com/KausikDas2000"
                 className="w-11 h-11 rounded-xl bg-gray-800 hover:bg-orange-500 flex items-center justify-center transition"
               >
                 <FaGithub />
