@@ -1,16 +1,21 @@
 import nodemailer from "nodemailer";
+import dns from "dns";
 
 const sendEmail = async (to, subject, text) => {
-  console.log("EMAIL:", process.env.EMAIL);
-
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
     secure: false,
-    family: 4,
+
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD,
+    },
+
+    dns: {
+      lookup: (hostname, options, callback) => {
+        dns.lookup(hostname, { family: 4 }, callback);
+      },
     },
   });
 
