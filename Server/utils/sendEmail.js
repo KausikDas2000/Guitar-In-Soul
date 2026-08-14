@@ -2,10 +2,12 @@ import nodemailer from "nodemailer";
 
 const sendEmail = async (to, subject, text) => {
   console.log("EMAIL:", process.env.EMAIL);
-  console.log("PASSWORD:", process.env.EMAIL_PASSWORD);
 
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    family: 4,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD,
@@ -17,7 +19,7 @@ const sendEmail = async (to, subject, text) => {
   console.log("SMTP Connected");
 
   await transporter.sendMail({
-    from: process.env.EMAIL,
+    from: `"Guitar In Soul" <${process.env.EMAIL}>`,
     to,
     subject,
     text,
